@@ -42,6 +42,7 @@ gem 'jquery-rails'
 
 gem "chunky_png"
 gem "slim-rails"
+gem "devise"
 
 group :test, :development do
   gem "rspec-rails", "~> 2.0"
