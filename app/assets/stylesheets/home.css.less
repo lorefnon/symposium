@@ -1,0 +1,71 @@
+@import "bootstrap_and_overrides.css.less";
+@import url(http://fonts.googleapis.com/css?family=Rokkitt);
+body, body * {
+    font-family: 'Rokkitt', serif;
+}
+#sym-main-header {
+    .border-radius(5px);
+    //background-color: #92A5BD;
+    background: #E1EAF5;
+    margin-bottom: 20px;
+    header {
+	.border-radius(5px);
+	background-color: #154887;
+	color: white;
+	border-bottom: 1px solid antiquewhite;
+    }
+    h1 {
+	display: block;
+	padding: 30px;
+	padding-bottom: 15px;
+	font-size: 55px;
+	font-weight: 300;
+    }
+    h2 {
+	font-weight: 100;
+	font-size: 19px;
+	padding: 0 30px 5px 30px;
+    }
+    .row {
+	margin-left: 0px;
+	h2 {
+	    font-size: 20px;
+	    font-weight: 800;
+	    padding-bottom: 4px;
+	    margin-bottom: 6px;
+	    border-bottom: 2px dashed black;
+	}
+	p {
+	    padding: 5px;
+	}
+    }
+    .span12 {
+	margin-left: 0;
+    }
+}
+#search-form {
+    padding: 20px;
+    margin: 0;
+    input {
+	font-size: 25px;
+	height: 30px;
+    }
+    input[type="text"] {
+	width: 70%;
+    }
+    input.btn {
+	margin-left: 30px;
+	height: 40px;
+    }
+}
+#intro {
+    padding: 10px;
+    padding-left: 20px;
+    font-size: 20px;
+}
+footer {
+    color: gray;
+    background: black;
+    padding: 10px;
+    font-size: 18px;
+}
