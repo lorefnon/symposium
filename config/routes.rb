@@ -1,4 +1,6 @@
 Symposium::Application.routes.draw do
+  resources :opinions
+
   resources :answers
 
   resources :questions
