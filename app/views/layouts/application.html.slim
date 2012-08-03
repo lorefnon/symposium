@@ -18,50 +18,28 @@ html lang="en"
     link href="images/favicon.ico" rel="shortcut icon"
 
   body
-    .navbar.navbar-fixed-top
-      .navbar-inner
-        .container-fluid
-          a.btn.btn-navbar data-target=".nav-collapse" data-toggle="collapse"
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.brand href="#"Symposium
-          .container-fluid.nav-collapse
-            ul.nav
-              li= link_to "Link 1", "/path1"
-              li= link_to "Link 2", "/path2"
-              li= link_to "Link 3", "/path3"
-            form.navbar-form.pull-right
-              input.span2 type="text" id="search"
-
-    .container-fluid
-      .notice= notice
-      .alert= alert
-      .row-fluid
-        .span9
-          = yield
-        .span3
-          .well.sidebar-nav
-            h1 Popular topics
-            ul.nav.nav-list
-              li.nav-header Sidebar
-              li= link_to "Topic 1", "/path1"
-              li= link_to "Topic 2", "/path2"
-              li= link_to "Topic 3", "/path3"
-            h1 Recent Unanswered Questions
-            ul.nav.nav-list
-              li.nav-header Sidebar
-              li= link_to "Topic 1", "/path1"
-              li= link_to "Topic 2", "/path2"
-              li= link_to "Topic 3", "/path3"
-
-    footer
-      | &copy; Gaurab Paul (@lorefnon) 2012
-      br
-      | Symposium is an pre-alpha experimental project.
-      | The code is available under MIT licence for all to explore and use.
-    /!
-      Javascripts
-      \==================================================
-    /! Placed at the end of the document so the pages load faster
-    = javascript_include_tag "application"
+    #page_wrapper
+      header
+        nav
+          - unless user_signed_in?
+            .btn-group
+              a.btn.btn-inverse href="/users/sign_in.html" Login
+              a.btn.btn-inverse href="/users/sign_up.html" Register
+          - else
+            .btn-group
+              a.btn.btn-inverse href="#" Dashboard
+              a.btn.btn-inverse href="/users/sign_out.html" Logout
+          ul
+            li
+              a href="/" Home
+            li
+              a href="#" Community
+            li
+              a href="#" FAQ
+            li
+              a href="#" About
+      #content_wrapper
+        = yield
+      footer
+        p &copy; 2012 Gaurab Paul (@lorefnon)
+        p Symposium codebase is available for public usage under MIT license.
