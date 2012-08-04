@@ -1,18 +1,19 @@
 # == Schema Information
 #
-# Table name: questions
+# Table name: comments
 #
 #  id          :integer          not null, primary key
-#  title       :string(255)      not null
-#  description :text             default(""), not null
-#  creator_id  :integer          not null
-#  is_closed   :boolean          not null
+#  body        :text
+#  creator_id  :integer
+#  target_id   :integer
+#  target_type :integer
+#  is_flagged  :boolean
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 
 require 'spec_helper'
 
-describe Question do
+describe Comment do
   pending "add some examples to (or delete) #{__FILE__}"
 end

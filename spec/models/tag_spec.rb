@@ -1,18 +1,17 @@
 # == Schema Information
 #
-# Table name: questions
+# Table name: tags
 #
 #  id          :integer          not null, primary key
-#  title       :string(255)      not null
-#  description :text             default(""), not null
-#  creator_id  :integer          not null
-#  is_closed   :boolean          not null
+#  name        :string(255)
+#  creator_id  :integer
+#  description :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 
 require 'spec_helper'
 
-describe Question do
+describe Tag do
   pending "add some examples to (or delete) #{__FILE__}"
 end
