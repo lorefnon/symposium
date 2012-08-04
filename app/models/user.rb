@@ -97,4 +97,51 @@ class User < ActiveRecord::Base
   is_subscribable()
 
   scope :active, where(:is_active => true)
+
+  [:user_name, :first_name, :last_name, :reputation].each do |field|
+    validates field, :presence => true
+  end
+
+  validates :user_name, :format => {
+    :with => /^[a-zA-Z0-9_-]$/,
+    :message => "User name should comprise only of letters, numbers, underscore and hyphen"
+  }
+
+  validates :user_name, :length => {
+    :minimum => 5,
+    :maximum => 20
+  }
+
+  [:middle_name, :first_name, :last_name, :country, :city].each do |field|
+    validates field, :format => {
+      :with => /^[a-zA-Z]$/,
+      :message => field.to_s + " can comprise only of alphabets"
+    }
+
+    validates field, :length => {
+      :minimum => 5,
+      :maximum => 20
+    }
+  end
+
+  validates :signature, :length => {:maximum => 140}
+  validates :reputation, :numericality => {:only_integer => true}
+
+  validates :gender,
+  :in => %w(m f),
+  :message => "gender is invalid"
+
+  validates :user_name, :uniqueness => true
+
+  def gender
+    read_attribute(:gender)
+  end
+
+  def gender=(gender)
+    if ["Male", "male","MALE" ,"m", "M"].include? gender
+      write_attribute(:gender, "m")
+    elsif ["Female", "female", "FEMALE", "f", "F"].include? gender
+      write_attribute(:gender, "f")
+    end
+  end
 end
