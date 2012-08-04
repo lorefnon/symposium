@@ -16,3 +16,4 @@
 
 #ignore emacs temporary files
 *~
+*\#
