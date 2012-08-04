@@ -144,4 +144,13 @@ class User < ActiveRecord::Base
       write_attribute(:gender, "f")
     end
   end
+
+  def signature
+    read_attribute(:signature)
+  end
+
+  def signature=(sig)
+    include ActionView::Helpers::SanitizeHelper
+    write_attribute(:signature, strip_tags(sig))
+  end
 end
