@@ -11,9 +11,83 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120801120447) do
+ActiveRecord::Schema.define(:version => 20120804062824) do
+
+  create_table "answers", :force => true do |t|
+    t.text     "body",        :null => false
+    t.integer  "creator_id",  :null => false
+    t.integer  "question_id", :null => false
+    t.integer  "upvotes",     :null => false
+    t.integer  "downvotes",   :null => false
+    t.boolean  "is_flagged",  :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "comments", :force => true do |t|
+    t.text     "body"
+    t.integer  "creator_id"
+    t.integer  "target_id"
+    t.integer  "target_type"
+    t.boolean  "is_flagged"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "opinions", :force => true do |t|
+    t.string   "action",       :null => false
+    t.integer  "creator_id",   :null => false
+    t.integer  "score_change", :null => false
+    t.integer  "target_id",    :null => false
+    t.integer  "target_type",  :null => false
+    t.boolean  "to_flag",      :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "questions", :force => true do |t|
+    t.string   "title",       :null => false
+    t.text     "description", :null => false
+    t.integer  "creator_id",  :null => false
+    t.boolean  "is_closed",   :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "questions_tags", :force => true do |t|
+    t.integer "question_id"
+    t.integer "tag_id"
+  end
+
+  create_table "subscriptions", :force => true do |t|
+    t.integer  "target_id"
+    t.string   "target_type"
+    t.integer  "subscriber_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "tags", :force => true do |t|
+    t.string   "name"
+    t.integer  "creator_id"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "users", :force => true do |t|
+    t.string   "user_name",                              :null => false
+    t.string   "first_name",                             :null => false
+    t.string   "mid_name"
+    t.string   "last_name",                              :null => false
+    t.text     "address"
+    t.string   "city"
+    t.string   "zip"
+    t.string   "country"
+    t.string   "gender"
+    t.integer  "reputation"
+    t.boolean  "is_active"
+    t.string   "signature"
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"
