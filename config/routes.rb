@@ -7,6 +7,12 @@ Symposium::Application.routes.draw do
 
   devise_for :users
 
+  resource :users do
+    resources :questions do
+    end
+    resources :answers do
+    end
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
