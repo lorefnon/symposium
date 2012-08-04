@@ -10,6 +10,9 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+require "opinable"
+require "commentable"
+require "subscribable"
 
 class Question < ActiveRecord::Base
   belongs_to :creator, :class_name => "User"
