@@ -43,7 +43,10 @@ gem 'jquery-rails'
 gem "chunky_png"
 gem "slim-rails"
 gem "devise"
+gem "default_value_for"
+gem "numbers_and_words"
 
 group :test, :development do
   gem "rspec-rails", "~> 2.0"
+  gem 'machinist', '>= 2.0.0.beta2'
 end
