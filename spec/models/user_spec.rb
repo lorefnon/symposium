@@ -53,6 +53,14 @@ describe User do
       @user.user_name = "harry"
       @user.valid?.should be_true
     end
+
+    it "must be unique" do
+      @user.user_name = "some_user"
+      @user.save.should be_true
+      u = User.make
+      u.user_name = "some_user"
+      u.save.should be_false
+    end
   end
 
   describe "#first_name, #last_name" do
@@ -111,7 +119,18 @@ describe User do
 
   describe "#email" do
     it "should be a valid email" do
-      
+      @user.email = "incomplete@email"
+      @user.valid?.should be_false
+      @user.email = "complete@email.com"
+      @user.valid?.should be_true
+    end
+
+    it "should be unique" do
+      @user.email = "complete@email.com"
+      @user.save.should be_true
+      u = User.make
+      u.email = "complete@email.com"
+      u.save.should be_false
     end
   end
 
