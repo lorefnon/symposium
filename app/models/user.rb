@@ -43,8 +43,9 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,
   :first_name, :last_name, :mid_name, :address, :city, :zip,
-  :country, :gender, :reputation, :is_active
-
+  :country, :gender, :reputation, :is_active, :user_name, :first_name,
+  :last_name, :mid_name, :address, :city, :zip, :country, :gender, :reputation,
+  :is_active, :signature
 
   has_many :tags_created,
   :class_name => "Tag",

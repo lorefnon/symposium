@@ -1,0 +1,27 @@
+#intro
+  #intro_inner
+    h1 Symposium
+    h2 Quench your curiosity.
+    p
+      | Symposium is a dead simple Question Answer site designed
+      | to help individuals ask and share solutions to problems
+      | they encounter during their everyday life.
+  #search_wrapper
+    - if user_signed_in?
+      a.btn href="/questions/new.html" Ask a Question.
+    #search_info Search for Questions :
+    #search_btn
+      input.btn.btn-primary type="submit" value="Search"
+    #search_box
+      form
+        #search_left
+        #search_inner
+          input type="text" name="tags"
+        #search_right
+#search_results
+  ul
+    - @questions.each do |q|
+      li
+        h1= q.title
+        p= q.description
+        p= "Asked By : #{q.creator.user_name}"

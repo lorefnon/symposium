@@ -21,9 +21,13 @@ class Question < ActiveRecord::Base
   belongs_to :creator, :class_name => "User"
   has_many :answers, :dependent => :destroy
 
+  attr_accessible :title, :description, :upvote_count, :downvote_count
+
   has_many :answerers,
   :through => :answers,
   :source => :creator
+
+  has_many :tags
 
   has_and_belongs_to_many :tags
 

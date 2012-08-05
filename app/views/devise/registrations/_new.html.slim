@@ -9,6 +9,22 @@
         .controls
           = f.email_field :email
       .control-group
+        = f.label :user_name, :class => "control-label"
+        .controls
+          = f.text_field :user_name
+      .control-group
+        = f.label :first_name, :class => "control-label"
+        .controls
+          = f.text_field :first_name
+      .control-group
+        = f.label :last_name, :class => "control-label"
+        .controls
+          = f.text_field :last_name
+      .control-group
+        = f.label :mid_name, :class => "control-label"
+        .controls
+          = f.text_field :mid_name
+      .control-group
         = f.label :password, :class => "control-label"
         .controls
           = f.password_field :password
