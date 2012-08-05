@@ -98,40 +98,83 @@ class User < ActiveRecord::Base
 
   scope :active, where(:is_active => true)
 
-  [:user_name, :first_name, :last_name, :reputation].each do |field|
-    validates field, :presence => true
-  end
-
   validates :user_name, :format => {
-    :with => /^[a-zA-Z0-9_-]$/,
-    :message => "User name should comprise only of letters, numbers, underscore and hyphen"
-  }
-
-  validates :user_name, :length => {
+    :with => /^[a-zA-Z0-9_-]*$/,
+    :message => "User name should comprise only of letters,"+
+    " numbers, underscore and hyphen"
+  },
+  :length => {
     :minimum => 5,
     :maximum => 20
-  }
+  },
+  :presence => true,
+  :uniqueness => true
 
-  [:middle_name, :first_name, :last_name, :country, :city].each do |field|
+  [:first_name, :last_name].each do |field|
     validates field, :format => {
-      :with => /^[a-zA-Z]$/,
+      :with => /^[a-zA-Z]*$/,
       :message => field.to_s + " can comprise only of alphabets"
-    }
-
-    validates field, :length => {
-      :minimum => 5,
+    },
+    :length => {
+      :minimum => 2,
       :maximum => 20
-    }
+    },
+    :presence => true
   end
 
-  validates :signature, :length => {:maximum => 140}
-  validates :reputation, :numericality => {:only_integer => true}
+  validates :mid_name,
+  :format => {
+      :with => /^[a-zA-Z]*$/,
+      :message => "middle name can comprise only of alphabets"
+    },
+    :length => {
+      :minimum => 5,
+      :maximum => 20
+    },
+  :allow_blank => true
+
+  validates :country, :format => {
+    :with => /^[a-zA-Z]*$/,
+    :message => "country can comprise only of alphabets"
+  },
+  :length => {
+    :minimum => 5,
+    :maximum => 20
+  },
+  :allow_blank => true
+
+  validates :city,
+  :format => {
+    :with => /^[a-zA-Z]*$/,
+    :message => "city can comprise only of alphabets"
+  },
+  :length => {
+    :minimum => 5,
+    :maximum => 20
+  },
+  :allow_blank => true
+
+  validates :signature,
+  :length => {
+    :maximum => 140
+  },
+  :allow_blank => true
+
+  validates :reputation,
+  :numericality => {
+    :only_integer => true
+  },
+  :presence => true
 
   validates :gender,
-  :in => %w(m f),
-  :message => "gender is invalid"
+  :inclusion => {
+    :in => %w(m f),
+    :message => "gender is invalid"
+  },
+  :allow_blank => true
 
-  validates :user_name, :uniqueness => true
+
+  default_value_for :reputation, 100
 
   def gender
     read_attribute(:gender)
