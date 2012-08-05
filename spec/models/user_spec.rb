@@ -32,5 +32,26 @@
 require 'spec_helper'
 
 describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before :each do
+    @user = User.make
+  end
+
+  describe "blueprint" do
+    it "passes validations when created from blueprint" do
+      @user.valid?.should be_true
+    end
+  end
+
+  describe "#user_name" do
+    it "must comprise of alphabets, numbers, underscores, hyphens only" do
+      @user.user_name = "Harry Potter"
+      @user.valid?.should be_false
+      @user.user_name = "Harry#Potter"
+      @user.valid?.should be_false
+      @user.user_name = "harrypotter@hogwarts.com"
+      @user.valid?.should be_false
+      @user.user_name = "harry"
+      @user.valid?.should be_true
+    end
+  end
 end
