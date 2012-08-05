@@ -54,4 +54,65 @@ describe User do
       @user.valid?.should be_true
     end
   end
+
+  describe "#first_name, #last_name" do
+    it "must comprise of alphabets only" do
+      @user.first_name = "Harry Potter"
+      @user.valid?.should be_false
+      @user.first_name = "crappy_name"
+      @user.valid?.should be_false
+      @user.first_name = "bond007"
+      @user.valid?.should be_false
+      @user.first_name = "harry"
+      @user.valid?.should be_true
+      @user.last_name = "x009"
+      @user.valid?.should be_false
+      @user.last_name = "Potter"
+      @user.valid?.should be_true
+    end
+  end
+
+  describe "#gender" do
+    it "automatically normalizes values" do
+      @user.gender = "Male"
+      @user.gender.should == "m"
+      @user.gender = "MALE"
+      @user.gender.should == "m"
+      @user.gender = "M"
+      @user.gender.should == "m"
+      @user.gender = "m"
+      @user.gender.should == "m"
+      @user.gender = "Female"
+      @user.gender.should == "f"
+      @user.gender = "FEMALE"
+      @user.gender.should == "f"
+      @user.gender = "female"
+      @user.gender.should == "f"
+      @user.gender = "f"
+      @user.gender.should == "f"
+      @user.gender = "F"
+      @user.gender.should == "f"
+    end
+  end
+
+  describe "#reputation" do
+    it "must be an integer" do
+      @user.reputation = 55.92
+      @user.valid?.should be_false
+    end
+  end
+
+  describe "#signature" do
+    it "auto-escapes html content" do
+      @user.signature = "<b>Hello </b>World"
+      @user.signature.should == "Hello World"
+    end
+  end
+
+  describe "#email" do
+    it "should be a valid email" do
+      
+    end
+  end
+
 end

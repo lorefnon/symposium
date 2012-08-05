@@ -30,7 +30,10 @@
 #
 
 require "subscribable"
+
 class User < ActiveRecord::Base
+  include ActionView::Helpers::SanitizeHelper
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -193,7 +196,6 @@ class User < ActiveRecord::Base
   end
 
   def signature=(sig)
-    include ActionView::Helpers::SanitizeHelper
     write_attribute(:signature, strip_tags(sig))
   end
 end
