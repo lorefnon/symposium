@@ -12,12 +12,15 @@ Question.blueprint do
   title { "Some creative question #{sn} of earth shattering importance"}
   description { "Lorem ipsum dolor sit amet ..."}
   creator { User.make }
-  is_closed {false}
 end
 
 Answer.blueprint do
   creator { User.make }
   question { Question.make }
-  upvote_count {0}
-  downvote_count {0}
+end
+
+Opinion.blueprint do
+  action { "upvote" }
+  score_change {0}
+  to_flag { false}
 end

@@ -36,4 +36,6 @@ class Question < ActiveRecord::Base
 
   validates :title, :presence => true
   default_value_for :is_closed, false
+  default_value_for :upvote_count, 0
+  default_value_for :downvote_count, 0
 end

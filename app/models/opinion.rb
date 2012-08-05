@@ -26,4 +26,8 @@ class Opinion < ActiveRecord::Base
   scope :for_comment, where(:target_type => "Comment")
   scope :that_affect, lambda{ |user| where(:target => {:creator_id => user.id})}
 
+  validate :action, :inclusion => {
+    :in => ["upvote", "downvote", "flag"]
+  }
+
 end
