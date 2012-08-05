@@ -2,6 +2,21 @@
 #
 # Table name: answers
 #
+#  id             :integer          not null, primary key
+#  body           :text             default(""), not null
+#  creator_id     :integer          not null
+#  question_id    :integer          not null
+#  upvote_count   :integer          not null
+#  downvote_count :integer          not null
+#  is_flagged     :boolean          not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+
+# == Schema Information
+#
+# Table name: answers
+#
 #  id          :integer          not null, primary key
 #  body        :text             default(""), not null
 #  creator_id  :integer          not null

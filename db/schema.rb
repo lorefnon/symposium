@@ -46,12 +46,14 @@ ActiveRecord::Schema.define(:version => 20120804062824) do
   end
 
   create_table "questions", :force => true do |t|
-    t.string   "title",       :null => false
-    t.text     "description", :null => false
-    t.integer  "creator_id",  :null => false
-    t.boolean  "is_closed",   :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "title",          :null => false
+    t.text     "description",    :null => false
+    t.integer  "creator_id",     :null => false
+    t.integer  "upvote_count",   :null => false
+    t.integer  "downvote_count", :null => false
+    t.boolean  "is_closed",      :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "questions_tags", :force => true do |t|

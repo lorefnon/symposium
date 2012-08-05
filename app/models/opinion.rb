@@ -3,12 +3,12 @@
 # Table name: opinions
 #
 #  id           :integer          not null, primary key
-#  action       :string(255)
-#  creator_id   :integer
-#  score_change :integer
-#  target_id    :integer
-#  target_type  :integer
-#  to_flag      :boolean
+#  action       :string(255)      not null
+#  creator_id   :integer          not null
+#  score_change :integer          not null
+#  target_id    :integer          not null
+#  target_type  :integer          not null
+#  to_flag      :boolean          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #

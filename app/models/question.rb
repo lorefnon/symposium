@@ -2,14 +2,17 @@
 #
 # Table name: questions
 #
-#  id          :integer          not null, primary key
-#  title       :string(255)      not null
-#  description :text             default(""), not null
-#  creator_id  :integer          not null
-#  is_closed   :boolean          not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id             :integer          not null, primary key
+#  title          :string(255)      not null
+#  description    :text             default(""), not null
+#  creator_id     :integer          not null
+#  upvote_count   :integer          not null
+#  downvote_count :integer          not null
+#  is_closed      :boolean          not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
+
 require "opinable"
 require "commentable"
 require "subscribable"
