@@ -16,5 +16,15 @@
 require 'spec_helper'
 
 describe Answer do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  before :each do
+    @ans = Answer.make!
+  end
+
+  describe "blueprint" do
+    it "passes validation rules" do
+      @ans.valid?.should be_true
+    end
+  end
+
 end
