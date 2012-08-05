@@ -30,4 +30,7 @@ class Question < ActiveRecord::Base
 
   scope :open, where(:is_closed => false)
   scope :closed, where(:is_closed => true)
+
+  validates :title, :presence => true
+  default_value_for :is_closed, false
 end
