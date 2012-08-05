@@ -35,4 +35,14 @@ Symposium::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+  # If pry is available then use it instead of IRB
+  # Else fallback to IRB
+  silence_warnings do
+    begin
+      require 'pry'
+      IRB = Pry
+    rescue LoadError
+    end
+  end
 end
