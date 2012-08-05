@@ -14,5 +14,16 @@
 require 'spec_helper'
 
 describe Question do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before :each do
+    @que = Question.make!
+  end
+
+  describe "blueprint" do
+    it "passes all validations" do
+      print @que.to_json
+      @que.valid?.should be_true
+      print @que.creator.to_json
+    end
+  end
+
 end

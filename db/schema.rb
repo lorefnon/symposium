@@ -14,14 +14,14 @@
 ActiveRecord::Schema.define(:version => 20120804062824) do
 
   create_table "answers", :force => true do |t|
-    t.text     "body",        :null => false
-    t.integer  "creator_id",  :null => false
-    t.integer  "question_id", :null => false
-    t.integer  "upvotes",     :null => false
-    t.integer  "downvotes",   :null => false
-    t.boolean  "is_flagged",  :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.text     "body",           :null => false
+    t.integer  "creator_id",     :null => false
+    t.integer  "question_id",    :null => false
+    t.integer  "upvote_count",   :null => false
+    t.integer  "downvote_count", :null => false
+    t.boolean  "is_flagged",     :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "comments", :force => true do |t|

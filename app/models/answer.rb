@@ -24,4 +24,8 @@ class Answer < ActiveRecord::Base
   is_opinable
   is_commentable
   is_subscribable
+
+  default_value_for :downvote_count, 0
+  default_value_for :upvote_count, 0
+  default_value_for :is_flagged, false
 end
