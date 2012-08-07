@@ -17,6 +17,8 @@ html lang="en"
     link href="images/apple-touch-icon.png" rel="apple-touch-icon-precomposed"
     link href="images/favicon.ico" rel="shortcut icon"
 
+    = javascript_include_tag "application"
+    = yield :aux_head
   body
     #page_wrapper
       header
@@ -33,7 +35,7 @@ html lang="en"
             li
               a href="/" Home
             li
-              a href="#" Community
+              a href="/community" Community
             li
               a href="#" FAQ
             li

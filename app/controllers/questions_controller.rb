@@ -1,20 +1,22 @@
 class QuestionsController < ApplicationController
-  before_filter :authenticate_user! , :except => :index
+  before_filter :authenticate_user! , :except => [:index, :show]
   respond_to :json, :html
 
   def index
-    page = if params.has_key? :page then params[:page] else 1 end
-    entries = if params.has_key? :entries then params[:entries] else 10 end
-    offset = entries*(page - 1)
-    @questions = Question.limit(entries).offset(offset)
+    params[:page] = 1 unless params.has_key? :page
+
+    @questions = Question
     if params.has_key? :tags
-      raw_tags = params[:tags].split(",")
-      tags = []
-      raw_tags.each do |item|
-        tags.push item.strip
+      tags = params[:tags].split(",")
+      len = tags.length
+      [1...len].each do |i|
+        tags[i] = tags[i].strip
       end
       @questions = @questions.where :tags => {:name => tags}
     end
+
+    @questions = @questions.paginate :page => params[:page]
+    print "===============>", @questions.to_json
     respond_with @questions
   end
 
@@ -23,15 +25,14 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @que = Question.find params[:id]
+    respond_with @que
   end
 
   def create
     @que = Question.new params[:question]
     @que.creator = current_user
-    if @que.save
-      render :text => "Successfully submitted"
-    else
-      redirect_to :action => "new"
-    end
+    @que.save
+    redirect_to :action => :show, :id => @que.id
   end
 end

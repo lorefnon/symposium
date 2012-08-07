@@ -1,5 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Rokkitt);
 @include "bootstrap_and_overrides.css.less";
+
 #intro {
     background: url("/assets/grain.jpg");
     color: white;
@@ -28,9 +29,28 @@
         margin: 0;
     }
 }
-#search_wrapper {
+
+@tbar_height: 55px;
+#main_tbar {
+    height: @tbar_height;
     background-color: #555555;
+    .btn {
+        margin-top: 15px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+    }
+}
+
+#aux_btns {
+    width: 30%;
+    float: left;
+    height: @tbar_height;
     position: relative;
+}
+#search_wrapper {
+    position: relative;
+    width: 70%;
+    float: left;
     height: 55px;
     #search_left, #search_box, #search_right {
         height: 55px;
@@ -58,13 +78,13 @@
         position: absolute;
         top: 0; bottom: 0; right: 0px;
         width: 100px;
-        .btn {
+        /*.btn {
             position: absolute;
             left: 10px;
             right: 10px;
             bottom: 10px;
             top: 15px;
-        }
+        }*/
     }
     #search_left {
         background: url("/assets/search_left.png") no-repeat top;

@@ -40,11 +40,12 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'debugger'
 
-gem "chunky_png"
-gem "slim-rails"
-gem "devise"
-gem "default_value_for"
-gem "numbers_and_words"
+gem 'chunky_png'
+gem 'slim-rails'
+gem 'devise'
+gem 'default_value_for'
+gem 'numbers_and_words'
+gem 'will_paginate', '~> 3.0'
 
 group :test, :development do
   gem 'rspec-rails', '~> 2.0'

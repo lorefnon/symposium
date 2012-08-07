@@ -32,6 +32,7 @@ require "commentable"
 require "subscribable"
 
 class Answer < ActiveRecord::Base
+  attr_accessible :body
   belongs_to :creator, :class_name => "User"
   belongs_to :question
   has_many :comments

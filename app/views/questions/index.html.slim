@@ -6,22 +6,35 @@
       | Symposium is a dead simple Question Answer site designed
       | to help individuals ask and share solutions to problems
       | they encounter during their everyday life.
-  #search_wrapper
-    - if user_signed_in?
-      a.btn href="/questions/new.html" Ask a Question.
-    #search_info Search for Questions :
-    #search_btn
-      input.btn.btn-primary type="submit" value="Search"
-    #search_box
-      form
-        #search_left
-        #search_inner
-          input type="text" name="tags"
-        #search_right
+  #main_tbar
+    #search_wrapper
+      #search_info Search for Questions :
+      #search_btn
+        input.btn.btn-primary type="submit" value="Search"
+      #search_box
+        form
+          #search_left
+          #search_inner
+            input type="text" name="tags"
+          #search_right
+    #aux_btns
+      == login_reqd_btn "Ask A question", "/questions/new", "btn-inverse"
+      == login_reqd_btn "Invite Friends", "#", "btn-inverse"
 #search_results
-  ul
+  ul.que-list
     - @questions.each do |q|
-      li
-        h1= q.title
-        p= q.description
-        p= "Asked By : #{q.creator.user_name}"
+      li.que-list-item
+        a.que-link href="/questions/#{q.id}"
+          strong.que-title= q.title
+        p.que-descr= q.description
+        .que-meta-wrapper
+          p.que-creation-meta
+            | Asked By 
+            a href="/users/#{q.creator.id}" #{q.creator.user_name}
+            |  #{time_ago_in_words(q.created_at)} ago
+          p.que-response-meta
+            - if q.answers.length > 0
+              | #{q.answers.length} Answers so far.
+            - else
+              | No answers yet.
+  = will_paginate @questions

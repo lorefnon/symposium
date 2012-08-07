@@ -1,0 +1,24 @@
+- content_for :aux_head do
+  link rel="stylesheet" type="text/css" href="/vendor/cleditor/jquery.cleditor.css"
+  script type="text/javascript" src="/vendor/cleditor/jquery.cleditor.min.js"
+  script type="text/javascript"
+    | $(function(){$("textarea").cleditor()})
+.que-super-wrapper
+  .que-wrapper
+    h1.que-title = @que.title
+    .que-descr
+      = @que.description
+    .que-meta-wrapper
+      | Asked by &nbsp;
+      a.user-link href="/users/#{@que.creator.id}" #{@que.creator.user_name}
+      |  #{time_ago_in_words(@que.created_at)} ago
+  .ans-wrapper
+    = form_for @ans, :url => {:action => "create"}, :html => {:class => "form-vertical"} do |f|
+      fieldset
+        .control-group
+          = f.label :body, :class => "control-label"
+          .controls
+            = f.text_area :body
+        .control-group
+          .controls
+            = f.submit "Submit Answer"
