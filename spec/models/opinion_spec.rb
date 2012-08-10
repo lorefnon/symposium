@@ -8,7 +8,6 @@
 #  score_change :integer          not null
 #  target_id    :integer          not null
 #  target_type  :integer          not null
-#  to_flag      :boolean          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #

@@ -10,8 +10,8 @@
 #  updated_at :datetime         not null
 #
 
-class TagPriviledge < ActiveRecord::Base
-  attr_accessible :priviledge
-  belongs_to :user
-  belongs_to :tag
+require 'spec_helper'
+
+describe TagPriviledge do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

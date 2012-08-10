@@ -8,6 +8,7 @@
 #  mid_name               :string(255)
 #  last_name              :string(255)      not null
 #  address                :text
+#  role                   :string(255)
 #  city                   :string(255)
 #  zip                    :string(255)
 #  country                :string(255)
