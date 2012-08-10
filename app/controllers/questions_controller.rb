@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_filter :authenticate_user! , :except => [:index, :show]
-  authorize_actions_for Question
+  authorize_actions_for Question, :except => [:index, :show]
   respond_to :json, :html
 
   def index
@@ -37,6 +37,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+    print "hello world"
   end
 
   def edit

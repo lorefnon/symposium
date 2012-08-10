@@ -10,13 +10,10 @@ class ApplicationAuthorizer < Authority::Authorizer
   def self.default(adjective, user)
     # 'Whitelist' strategy for security: anything not explicitly allowed is
     # considered forbidden.
-    user.is_admin
+    user.role == "admin"
   end
   def self.readable_by? (user)
     true
-  end
-  def self.creatable_by? (user)
-    user.role == "admin"
   end
   def updatable_by? (user)
     (resource.creator == user and resource.is_active) or

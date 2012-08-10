@@ -14,5 +14,12 @@ class Tag < ActiveRecord::Base
   has_and_belongs_to_many :questions
   belongs_to :creator, :class_name => "User"
   has_and_belongs_to_many :moderators
+  has_many :tag_priviledges
+
+  has_many :priviledged_users,
+  :through => :tag_priviledges,
+  :class_name => "User",
+  :source => :tag
+
   is_subscribable
 end

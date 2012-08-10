@@ -8,7 +8,6 @@
 #  score_change :integer          not null
 #  target_id    :integer          not null
 #  target_type  :integer          not null
-#  to_flag      :boolean          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
@@ -19,7 +18,7 @@ class Opinion < ActiveRecord::Base
   belongs_to :creator, :class_name => "User"
   belongs_to :target, :polymorphic => true
 
-  before_save :save_reputation
+  #before_save :save_reputation
 
   scope :by, lambda{ |user| where(:creator_id => user.id)}
   scope :upvote, where(:optype => "upvote")
@@ -35,12 +34,13 @@ class Opinion < ActiveRecord::Base
     :in => ["upvote", "downvote", "flag"]
   }
 
-  def determine_score_change()
-    
-  end
-
-  def save_reputation()
-    score_change = determine_score
-    creator.save
-  end
+  # def determine_score_change()
+  #
+  # end
+  #
+  # def save_reputation()
+  #   score_change = determine_score_change
+  #   creator.reputation += score_change
+  #   creator.save
+  # end
 end

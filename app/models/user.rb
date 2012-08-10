@@ -8,6 +8,7 @@
 #  mid_name               :string(255)
 #  last_name              :string(255)      not null
 #  address                :text
+#  role                   :string(255)
 #  city                   :string(255)
 #  zip                    :string(255)
 #  country                :string(255)
@@ -115,6 +116,13 @@ class User < ActiveRecord::Base
     :source => :target,
     :conditions => {:target_type => item.capitalize}
   end
+
+  has_many :tag_priviledges
+
+  has_many :priviledged_tags,
+  :class_name => "Tag",
+  :through => :tag_priviledges,
+  :source => :tag
 
   is_subscribable()
 

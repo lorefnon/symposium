@@ -7,8 +7,7 @@ class OpinionsController < ApplicationController
     o.target = target
     o.creator = current_user
     o.optype = params[:optype]
-    o.score_change = 0 # FOR NOW
-    o.to_flag = false #remove later
+    o.score_change = 0
     o.save
     redirect_to "/#{params[:target_type].downcase.pluralize}/#{params[:target_id]}"
   end
