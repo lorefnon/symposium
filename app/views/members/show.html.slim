@@ -1,0 +1,10 @@
+#member_profile_wrapper
+  #member_intro
+    .member-img-wrapper
+      img src="#{grav_img(@user, 60)}"
+    h1.member-name
+      = @user.user_name
+    .member-tdur
+      |has been a member of Symposium since :
+      span.time-dur
+        = @user.created_at.strftime("%B %d, %Y")

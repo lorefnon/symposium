@@ -1,16 +1,14 @@
 Symposium::Application.routes.draw do
   resources :opinions
 
-  resources :answers
-
-  resources :questions do
+  resources :questions, :shallow => true do
     resources :answers
     resources :comments
   end
 
   devise_for :users
 
-  resources :users do
+  resources :members, :shallow => true  do
     resources :questions do
     end
     resources :answers do
@@ -76,5 +74,6 @@ Symposium::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
 
-  match '/community' => 'users#index'
+  match '/community' => 'members#index'
+  match '/opine/:optype/:target_type/:target_id' => 'opinions#create'
 end

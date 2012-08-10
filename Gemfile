@@ -46,6 +46,7 @@ gem 'devise'
 gem 'default_value_for'
 gem 'numbers_and_words'
 gem 'will_paginate', '~> 3.0'
+gem 'authority'
 
 group :test, :development do
   gem 'rspec-rails', '~> 2.0'

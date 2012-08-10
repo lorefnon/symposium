@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_filter :authenticate_user! , :except => [:index, :show]
+  authorize_actions_for Question
   respond_to :json, :html
 
   def index
@@ -16,7 +17,6 @@ class QuestionsController < ApplicationController
     end
 
     @questions = @questions.paginate :page => params[:page]
-    print "===============>", @questions.to_json
     respond_with @questions
   end
 
@@ -34,5 +34,11 @@ class QuestionsController < ApplicationController
     @que.creator = current_user
     @que.save
     redirect_to :action => :show, :id => @que.id
+  end
+
+  def destroy
+  end
+
+  def edit
   end
 end

@@ -32,6 +32,9 @@
 require "subscribable"
 
 class User < ActiveRecord::Base
+  include Authority::UserAbilities
+  include Authority::Abilities
+  self.authorizer_name = 'UserAuthorizer'
   include ActionView::Helpers::SanitizeHelper
 
   # Include default devise modules. Others available are:
@@ -91,6 +94,21 @@ class User < ActiveRecord::Base
   :through => :subscriptions,
   :source => :target
 
+  has_and_belongs_to_many :moderated_tags,
+  :class_name => "Tag",
+  :join_table => :moderator_tags,
+  :association_foreign_key => :moderator_id
+
+  has_many :questions_under_moderation,
+  :class_name => "Question",
+  :through => :moderated_tags,
+  :source => :questions
+
+  has_many :answers_under_moderation,
+  :class_name => "Answer",
+  :through => :moderated_questions,
+  :source => :answer
+
   ["question", "answer", "comment", "user"].each do |item|
     has_many ("subscribed_#{item}s").to_sym,
     :through => :subscriptions,
@@ -101,6 +119,8 @@ class User < ActiveRecord::Base
   is_subscribable()
 
   scope :active, where(:is_active => true)
+  scope :admin, where(:role => "admin")
+  scope :moderator, where(:role => "moderator")
 
   validates :user_name, :format => {
     :with => /^[a-zA-Z0-9_-]*$/,
@@ -179,6 +199,8 @@ class User < ActiveRecord::Base
 
 
   default_value_for :reputation, 100
+  default_value_for :is_active, true
+  default_value_for :role, :participant
 
   def gender
     read_attribute(:gender)
@@ -199,4 +221,5 @@ class User < ActiveRecord::Base
   def signature=(sig)
     write_attribute(:signature, strip_tags(sig))
   end
+
 end

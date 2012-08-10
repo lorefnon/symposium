@@ -24,17 +24,16 @@
   ul.que-list
     - @questions.each do |q|
       li.que-list-item
-        a.que-link href="/questions/#{q.id}"
-          strong.que-title= q.title
-        p.que-descr= q.description
-        .que-meta-wrapper
-          p.que-creation-meta
-            | Asked By 
-            a href="/users/#{q.creator.id}" #{q.creator.user_name}
-            |  #{time_ago_in_words(q.created_at)} ago
-          p.que-response-meta
-            - if q.answers.length > 0
-              | #{q.answers.length} Answers so far.
-            - else
-              | No answers yet.
+        = creator_box q, "ask"
+        = opinion_box q
+        .opinion-target-wrapper
+          a.que-link href="/questions/#{q.id}"
+            strong.que-title= q.title
+          p.que-descr= q.description
+          .que-meta-wrapper
+            p.que-response-meta
+              - if q.answers.length > 0
+                | #{q.answers.length} Answers so far.
+              - else
+                | No answers yet.
   = will_paginate @questions

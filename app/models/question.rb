@@ -6,9 +6,10 @@
 #  title          :string(255)      not null
 #  description    :text             default(""), not null
 #  creator_id     :integer          not null
-#  upvote_count   :integer          not null
-#  downvote_count :integer          not null
-#  is_closed      :boolean          not null
+#  upvote_count   :integer          default(0)
+#  downvote_count :integer          default(0)
+#  is_closed      :boolean          default(FALSE)
+#  is_active      :boolean          default(TRUE)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #
@@ -18,6 +19,9 @@ require "commentable"
 require "subscribable"
 
 class Question < ActiveRecord::Base
+  include Authority::Abilities
+  self.authorizer_name = "QuestionsAuthorizer"
+
   belongs_to :creator, :class_name => "User"
   has_many :answers, :dependent => :destroy
 
@@ -28,6 +32,7 @@ class Question < ActiveRecord::Base
   :source => :creator
 
   has_many :tags
+  has_many :moderators, :through => :tags
 
   has_and_belongs_to_many :tags
 

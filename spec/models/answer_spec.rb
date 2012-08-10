@@ -6,9 +6,10 @@
 #  body           :text             default(""), not null
 #  creator_id     :integer          not null
 #  question_id    :integer          not null
-#  upvote_count   :integer          not null
-#  downvote_count :integer          not null
-#  is_flagged     :boolean          not null
+#  upvote_count   :integer          default(0)
+#  downvote_count :integer          default(0)
+#  is_flagged     :boolean          default(FALSE)
+#  is_active      :boolean          default(TRUE)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

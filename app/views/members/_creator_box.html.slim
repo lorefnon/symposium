@@ -1,0 +1,7 @@
+.creator-box
+  .creator-intro
+  | #{create_action.capitalize}ed #{time_ago_in_words(item.created_at)} ago By
+  .member-info
+    img src="#{img_url}"
+    .member-name
+      a href="/members/#{creator.id}" = creator.user_name

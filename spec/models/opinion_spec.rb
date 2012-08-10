@@ -3,7 +3,7 @@
 # Table name: opinions
 #
 #  id           :integer          not null, primary key
-#  action       :string(255)      not null
+#  optype       :string(255)      not null
 #  creator_id   :integer          not null
 #  score_change :integer          not null
 #  target_id    :integer          not null

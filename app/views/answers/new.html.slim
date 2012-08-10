@@ -10,7 +10,7 @@
       = @que.description
     .que-meta-wrapper
       | Asked by &nbsp;
-      a.user-link href="/users/#{@que.creator.id}" #{@que.creator.user_name}
+      a.user-link href="/members/#{@que.creator.id}" #{@que.creator.user_name}
       |  #{time_ago_in_words(@que.created_at)} ago
   .ans-wrapper
     = form_for @ans, :url => {:action => "create"}, :html => {:class => "form-vertical"} do |f|

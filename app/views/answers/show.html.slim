@@ -1,0 +1,6 @@
+= qbox @ans.question
+= ans_box @ans
+a.all.btn.btn-primary href="/questions/#{@ans.question.id}"
+  | View all answers
+a.btn.btn-primary href="/questions/#{@ans.question.id}/answers/new"
+  | Add an answer

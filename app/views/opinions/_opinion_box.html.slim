@@ -1,0 +1,11 @@
+.opinion-wrapper
+  .like-wrapper
+    a href="/opine/upvote/#{target.class}/#{target.id}" class="#{upvote_class} btn upvote-btn"
+      img src="/assets/like.png"
+      span.like-count.badge.badge-success
+        = upvote_count
+    a href="/opine/downvote/#{target.class}/#{target.id}" class="#{downvote_class} btn downvote-btn"
+      img src="/assets/dislike.png"
+      span.dislike-count.badge.badge-warning
+        = downvote_count
+    = button_to "Delete", { :controller => :questions, :action => :destroy, :id => 1 }, {:method => :delete}

@@ -13,6 +13,11 @@
 #
 
 class Comment < ActiveRecord::Base
+  include Authority::Abilities
+  self.authorizer_name = ''
   belongs_to :target, :polymorphic => true
   belongs_to :creator, :class_name => "User"
+
+  has_many :moderators, :through => :target
+
 end

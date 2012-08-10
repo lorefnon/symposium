@@ -30,7 +30,7 @@ html lang="en"
           - else
             .btn-group
               a.btn.btn-inverse href="#" Dashboard
-              = link_to('Logout', destroy_user_session_path, :method => :delete, :class=>"btn btn-inverse")
+              a.btn.btn-inverse href="/users/sign_out" Log Out
           ul
             li
               a href="/" Home

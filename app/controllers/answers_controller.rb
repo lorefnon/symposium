@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
   before_filter :authenticate_user! , :except => [:show]
   def show
+    @ans = Answer.find params[:id]
   end
   def new
     @que = Question.find params[:question_id]
@@ -12,5 +13,7 @@ class AnswersController < ApplicationController
     @ans.creator_id = current_user.id
     @ans.save
     redirect_to :controller => "questions", :action => "show", :id => params[:question_id]
+  end
+  def destroy
   end
 end

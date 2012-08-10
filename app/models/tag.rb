@@ -13,6 +13,6 @@
 class Tag < ActiveRecord::Base
   has_and_belongs_to_many :questions
   belongs_to :creator, :class_name => "User"
-
+  has_and_belongs_to_many :moderators
   is_subscribable
 end

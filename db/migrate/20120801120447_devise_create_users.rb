@@ -6,6 +6,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :mid_name
       t.string :last_name, :null => false
       t.text :address
+      t.string :role
       t.string :city
       t.string :zip
       t.string :country

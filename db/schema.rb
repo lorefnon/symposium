@@ -11,17 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120804062824) do
+ActiveRecord::Schema.define(:version => 20120809063341) do
 
   create_table "answers", :force => true do |t|
-    t.text     "body",           :null => false
-    t.integer  "creator_id",     :null => false
-    t.integer  "question_id",    :null => false
-    t.integer  "upvote_count",   :null => false
-    t.integer  "downvote_count", :null => false
-    t.boolean  "is_flagged",     :null => false
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.text     "body",                              :null => false
+    t.integer  "creator_id",                        :null => false
+    t.integer  "question_id",                       :null => false
+    t.integer  "upvote_count",   :default => 0
+    t.integer  "downvote_count", :default => 0
+    t.boolean  "is_flagged",     :default => false
+    t.boolean  "is_active",      :default => true
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   create_table "comments", :force => true do |t|
@@ -34,26 +35,31 @@ ActiveRecord::Schema.define(:version => 20120804062824) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "moderators_tags", :force => true do |t|
+    t.integer "tag_id"
+    t.integer "moderator_id"
+  end
+
   create_table "opinions", :force => true do |t|
-    t.string   "action",       :null => false
+    t.string   "optype",       :null => false
     t.integer  "creator_id",   :null => false
     t.integer  "score_change", :null => false
     t.integer  "target_id",    :null => false
     t.integer  "target_type",  :null => false
-    t.boolean  "to_flag",      :null => false
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
 
   create_table "questions", :force => true do |t|
-    t.string   "title",          :null => false
-    t.text     "description",    :null => false
-    t.integer  "creator_id",     :null => false
-    t.integer  "upvote_count",   :null => false
-    t.integer  "downvote_count", :null => false
-    t.boolean  "is_closed",      :null => false
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.string   "title",                             :null => false
+    t.text     "description",                       :null => false
+    t.integer  "creator_id",                        :null => false
+    t.integer  "upvote_count",   :default => 0
+    t.integer  "downvote_count", :default => 0
+    t.boolean  "is_closed",      :default => false
+    t.boolean  "is_active",      :default => true
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   create_table "questions_tags", :force => true do |t|
@@ -83,6 +89,7 @@ ActiveRecord::Schema.define(:version => 20120804062824) do
     t.string   "mid_name"
     t.string   "last_name",                              :null => false
     t.text     "address"
+    t.string   "role"
     t.string   "city"
     t.string   "zip"
     t.string   "country"

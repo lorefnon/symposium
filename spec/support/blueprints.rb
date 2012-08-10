@@ -24,3 +24,7 @@ Opinion.blueprint do
   score_change {0}
   to_flag { false}
 end
+
+Moderator.blueprint do
+  # Attributes here
+end

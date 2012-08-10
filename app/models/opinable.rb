@@ -6,15 +6,18 @@ module Opinable
 
     has_many :upvotes,
     :class_name => "Opinion",
-    :conditions => {:action => "upvote"}
+    :as => :target,
+    :conditions => {:optype => "upvote"}
 
     has_many :downvotes,
     :class_name => "Opinion",
-    :conditions => {:action => "downvote"}
+    :as => :target,
+    :conditions => {:optype => "downvote"}
 
     has_many :flags,
     :class_name => "Opinion",
-    :conditions => {:action => "flag"}
+    :as => :target,
+    :conditions => {:optype => "flag"}
 
     has_many :opiners,
     :through => :opinions,
@@ -24,7 +27,7 @@ module Opinable
     :through => :upvotes,
     :source => :creator
 
-    has_many :downvotes,
+    has_many :downvoters,
     :through => :downvotes,
     :source => :creator
 

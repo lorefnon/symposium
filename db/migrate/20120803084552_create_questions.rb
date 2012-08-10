@@ -4,9 +4,10 @@ class CreateQuestions < ActiveRecord::Migration
       t.string :title, :null => false
       t.text :description, :null => false
       t.integer :creator_id, :null => false
-      t.integer :upvote_count, :null => false
-      t.integer :downvote_count, :null => false
-      t.boolean :is_closed, :null => false
+      t.integer :upvote_count, :default => 0
+      t.integer :downvote_count, :default => 0
+      t.boolean :is_closed, :default => false
+      t.boolean :is_active, :default => true
       t.timestamps
     end
   end

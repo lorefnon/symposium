@@ -1,0 +1,15 @@
+.form-wrapper
+  h2 Ask a Question
+  = form_for que, :url => {:action => "create" }, :html => {:class => "form-horizontal"} do |f|
+    fieldset
+      .control-group
+        = f.label :title, :class => "control-label"
+        .controls
+          = f.text_field :title
+      .control-group
+        = f.label :description, :class => "control-label"
+        .controls
+          = f.text_area :description
+      .control-group
+        .controls
+          = f.submit "Submit Question"
