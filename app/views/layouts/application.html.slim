@@ -21,6 +21,10 @@ html lang="en"
     = yield :aux_head
   body
     #page_wrapper
+      #flash_wrapper
+        - flash.each do |key, msg|
+          .flash id="flash_#{key}"
+            = msg
       header
         nav
           - unless user_signed_in?

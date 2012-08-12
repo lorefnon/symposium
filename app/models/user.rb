@@ -51,6 +51,8 @@ class User < ActiveRecord::Base
   :last_name, :mid_name, :address, :city, :zip, :country, :gender, :reputation,
   :is_active, :signature
 
+  attr_protected :password, :password_confirmation, :role, :reputation
+
   has_many :tags_created,
   :class_name => "Tag",
   :foreign_key => "creator_id"
@@ -205,7 +207,6 @@ class User < ActiveRecord::Base
   },
   :allow_blank => true
 
-
   default_value_for :reputation, 100
   default_value_for :is_active, true
   default_value_for :role, :participant
@@ -230,4 +231,51 @@ class User < ActiveRecord::Base
     write_attribute(:signature, strip_tags(sig))
   end
 
+  self.per_page = 10
+
+  def as_json(options)
+    if options.nil? then options = {} end
+    unless options.has_key? :only
+      options[:only] = []
+    end
+    [:id, :user_name, :first_name, :last_name, :reputation].each do |field|
+      options[:only] << field
+    end
+    options[:include] = {:tag_priviledges => {:include => :tag}}
+    super(options)
+  end
+
+  def update_profile(config)
+    flag = true
+
+    if config.has_key? :password and not config[:password].empty?
+      if not config.has_key? :old_password or config[:old_password].empty?
+        self.errors.add :old_password, "was not provided"
+        flag = false
+      end
+      if flag and not valid_password? config[:old_password]
+        self.errors.add :old_password,  "is not correct"
+        flag = false
+      end
+      if flag and config[:password] != config[:password_confirmation]
+        self.errors.add :password_confirmation, "does not match"
+        flag = false
+      end
+      if flag
+        password = config[:password]
+        flag = self.save
+      end
+      if flag
+        flash[:success] = "Password changed successfully"
+      else
+        flash[:error] = "Password could not be saved"
+      end
+    end
+
+    [:password, :password_confirmation, :old_password].each do |field|
+      config.delete field
+    end
+
+    ret = (flag and self.update_attributes config)
+  end
 end

@@ -8,11 +8,11 @@
       | they encounter during their everyday life.
   #main_tbar
     #search_wrapper
-      #search_info Search for Questions :
-      #search_btn
-        input.btn.btn-primary type="submit" value="Search"
-      #search_box
-        form
+      form action="/questions.html" method="get"
+        #search_info Search for Questions :
+        #search_btn
+          input.btn.btn-primary type="submit" value="Search"
+        #search_box
           #search_left
           #search_inner
             input type="text" name="tags"
@@ -26,6 +26,7 @@
       li.que-list-item
         = creator_box q, "ask"
         = opinion_box q
+        = operations_box q
         .opinion-target-wrapper
           a.que-link href="/questions/#{q.id}"
             strong.que-title= q.title
@@ -36,4 +37,7 @@
                 | #{q.answers.length} Answers so far.
               - else
                 | No answers yet.
+            ul.que-tags
+              - q.tags.each do |tag|
+                li= tag.name
   = will_paginate @questions

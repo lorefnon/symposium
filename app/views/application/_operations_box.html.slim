@@ -1,0 +1,6 @@
+.operations-wrapper
+  - controller_name = target.class.name.pluralize.downcase
+  - if current_user.can_delete? target
+    = button_to "Delete", {:controller => controller_name, :action => :destroy, :id => target.id}, {:method => :delete}
+  - if current_user.can_update? target
+    = button_to "Edit", { :controller => controller_name, :action => :edit, :id => target.id}, {:method => :get}

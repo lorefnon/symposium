@@ -1,10 +1,55 @@
 #member_profile_wrapper
-  #member_intro
+  .member-intro
+    h2 About
     .member-img-wrapper
       img src="#{grav_img(@user, 60)}"
     h1.member-name
-      = @user.user_name
+      a href="/members/#{@user.id}.html"
+        = "#{@user.user_name} (#{@user.first_name} #{@user.mid_name} #{@user.last_name}) "
+    .member-rep
+      .badge = @user.reputation
     .member-tdur
       |has been a member of Symposium since :
       span.time-dur
         = @user.created_at.strftime("%B %d, %Y")
+    .priv-tags
+      ul
+        - @user.tag_priviledges.each do |tp|
+          li
+            .tag.badge.badge-inverse= tp.tag.name
+
+  .member-details
+    - if current_user.can_update? @user
+      .profile
+        h2 Profile
+        #edit_options
+          = link_to "Edit Your profile",{:controller => :members, :action => :edit}
+
+        ul.profile-info-list
+          - [:email, :address, :city, :zip, :country, :gender].each do |item|
+            li.profile-info-item
+              h3= item.to_s
+              p = @user.send(item)
+
+    .asked-que-box
+      h2 Asked Questions
+      ul.asked-que-list
+         - @user.questions_asked.each do |que|
+           li.asked-que-item
+             a href="/questions/#{que.id}.html" = que.title
+             .badge.que-upvotes = que.upvotes.length
+             .badge.que-downvotes = que.downvotes.length
+    .repl-ans-box
+      h2 Contributed Answers
+      ul.repl-ans-list
+        - @user.answers_provided.each do |ans|
+          li.ans-item
+            a href="/answers/#{ans.id}.html"
+              = ans.question.title
+            .badge.que-upvotes = ans.question.upvotes.length
+            .badge.que-downvotes = ans.question.downvotes.length
+            == "#{strip_tags(ans.body)[0..100]} ..."
+            .badge.ans-upvotes = ans.upvotes.length
+            .badge.ans-downvotes = ans.downvotes.length
+    .rep-graph
+      h2 Reputation Graph

@@ -1,7 +1,26 @@
 ul.user-list
+  #user_search_form
+    h2 Search for Symposium members by :
+    form action="/community" method="get"
+      label for="user_name" User Name
+      input type="text" name="user_name"
+      label for="priv_tags" Tag priviledges
+      input type="text" name="priv_tags"
+      input type="Submit"
+  - if @users.length == 0
+    p.empty-res-set
+      | No Users were found
   - @users.each do |u|
     li.user-list-item
-      = u.user_name
-    
-  
-
+      h1
+        img.user-pic src="#{grav_img u}"
+        a.user-name href="/members/#{u.id}.html"
+          = u.user_name
+        span.badge.user-reputation = u.reputation
+      ul.user-tag-priviledges
+        - u.tag_priviledges.each do |tp|
+          span.badge.badge-info.user-p-tag
+            = "#{tp.tag.name} | #{tp.priviledge}"
+      p = u.signature
+      .membership_start
+        | Member since : #{u.created_at}

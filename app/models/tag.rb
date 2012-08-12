@@ -11,6 +11,8 @@
 #
 
 class Tag < ActiveRecord::Base
+  attr_accessible :name, :description
+
   has_and_belongs_to_many :questions
   belongs_to :creator, :class_name => "User"
   has_and_belongs_to_many :moderators
@@ -22,4 +24,14 @@ class Tag < ActiveRecord::Base
   :source => :tag
 
   is_subscribable
+
+  def as_json(options)
+    if options.nil? then options = {} end
+    unless options.has_key? :only
+      options[:only] = []
+    end
+    options[:only] << :id << :name
+    super(options)
+  end
+
 end
