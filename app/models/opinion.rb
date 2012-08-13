@@ -24,7 +24,9 @@ class Opinion < ActiveRecord::Base
   scope :upvote, where(:optype => "upvote")
   scope :downvote, where(:optype => "downvote")
   scope :flag, where(:optype => "flag")
-  scope :for, lambda{ |target| where(:target_id => target.id, :target_type => target.class)}
+  scope :for, lambda{ |target|
+    where("target_id = ? and target_type = ?",target.id, target.class.name)
+  }
   scope :for_question, where(:target_type => "Question")
   scope :for_answer, where(:target_type => "Answer")
   scope :for_comment, where(:target_type => "Comment")
