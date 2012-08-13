@@ -1,13 +1,13 @@
 .que-super-wrapper
-  = qbox @que
+  = qbox @inst
   .ans-wrapper
     .ans-tbar
-      a.btn.btn-primary href="/questions/#{@que.id}/answers/new" Add an answer
+      a.btn.btn-primary href="/questions/#{@inst.id}/answers/new" Add an answer
     .ans-list-wrapper
-      - if @que.answers.length == 0
+      - if @inst.answers.length == 0
         .no-ans-decl
       - else
         ul.ans-list
-          - @que.answers.each do |ans|
+          - @inst.answers.each do |ans|
             li.ans-list-item
               = ans_box ans

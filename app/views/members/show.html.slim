@@ -2,24 +2,24 @@
   .member-intro
     h2 About
     .member-img-wrapper
-      img src="#{grav_img(@user, 60)}"
+      img src="#{grav_img(@inst, 60)}"
     h1.member-name
-      a href="/members/#{@user.id}.html"
-        = "#{@user.user_name} (#{@user.first_name} #{@user.mid_name} #{@user.last_name}) "
+      a href="/members/#{@inst.id}.html"
+        = "#{@inst.user_name} (#{@inst.first_name} #{@inst.mid_name} #{@inst.last_name}) "
     .member-rep
-      .badge = @user.reputation
+      .badge = @inst.reputation
     .member-tdur
       |has been a member of Symposium since :
       span.time-dur
-        = @user.created_at.strftime("%B %d, %Y")
+        = @inst.created_at.strftime("%B %d, %Y")
     .priv-tags
       ul
-        - @user.tag_priviledges.each do |tp|
+        - @inst.tag_priviledges.each do |tp|
           li
             .tag.badge.badge-inverse= tp.tag.name
 
   .member-details
-    - if current_user.can_update? @user
+    - if not current_user.nil? and current_user.can_update? @inst
       .profile
         h2 Profile
         #edit_options
@@ -29,12 +29,12 @@
           - [:email, :address, :city, :zip, :country, :gender].each do |item|
             li.profile-info-item
               h3= item.to_s
-              p = @user.send(item)
+              p = @inst.send(item)
 
     .asked-que-box
       h2 Asked Questions
       ul.asked-que-list
-         - @user.questions_asked.each do |que|
+         - @inst.questions_asked.each do |que|
            li.asked-que-item
              a href="/questions/#{que.id}.html" = que.title
              .badge.que-upvotes = que.upvotes.length
@@ -42,7 +42,7 @@
     .repl-ans-box
       h2 Contributed Answers
       ul.repl-ans-list
-        - @user.answers_provided.each do |ans|
+        - @inst.answers_provided.each do |ans|
           li.ans-item
             a href="/answers/#{ans.id}.html"
               = ans.question.title

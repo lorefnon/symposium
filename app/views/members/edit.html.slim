@@ -1,14 +1,14 @@
 .form-wrapper
   h2 Edit your profile
-  - unless  @user.errors.empty?
+  - unless  @inst.errors.empty?
     .error-wrappr
       ul.err-list
-        - @user.errors.each do |e|
+        - @inst.errors.each do |e|
           li.err-item = e.to_s
   - else
     | No errors
 
-  = form_for @user, :url => {:controller => :members, :action => :update}, :html => {:class => "form-horizontal"} do |f|
+  = form_for @inst, :url => {:controller => :members, :action => :update}, :html => {:class => "form-horizontal"} do |f|
     .password_block
       h3 Change your password :
       .control-group
