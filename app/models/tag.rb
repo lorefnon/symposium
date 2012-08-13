@@ -15,7 +15,12 @@ class Tag < ActiveRecord::Base
 
   has_and_belongs_to_many :questions
   belongs_to :creator, :class_name => "User"
-  has_and_belongs_to_many :moderators
+
+  has_and_belongs_to_many :moderators,
+  :class_name => "User",
+  :join_table => "moderators_tags",
+  :association_foreign_key => "moderator_id"
+
   has_many :tag_priviledges
 
   has_many :priviledged_users,
