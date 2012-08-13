@@ -1,5 +1,5 @@
 class AnswersAuthorizer < ApplicationAuthorizer
-  def creatable_by? (user)
-    user.reputation > 500
+  def self.creatable_by? (user)
+    user.is_active
   end
 end
