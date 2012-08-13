@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(:version => 20120810034555) do
     t.integer  "creator_id",   :null => false
     t.integer  "score_change", :null => false
     t.integer  "target_id",    :null => false
-    t.integer  "target_type",  :null => false
+    t.string   "target_type",  :null => false
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
