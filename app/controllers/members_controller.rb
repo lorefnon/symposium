@@ -1,4 +1,7 @@
 class MembersController < ApplicationController
+
+  def model_class; User end
+
   def index
     @users = User.includes(:tag_priviledges => [:tag])
     if params.has_key? :user_name and not params[:user_name].empty?
@@ -23,38 +26,24 @@ class MembersController < ApplicationController
 
   end
 
-  def show
-    return unless protect_against_missing do
-      @user = User.find params[:id]
-    end
-    respond_to do |format|
-      format.html
-      format.json {
-        render :json => @user
-      }
-    end
-  end
-
   def destroy
-    return unless protect_against_missing do
-      @user = User.find params[:id]
-    end
-    authorize_action_for @user
+    declare_not_found unless retrieve_inst
+    authorize_action_for @inst
     cur_id = current_user.id
-    des_id = @user.id
+    des_id = @inst.id
 
-    if @user.destroy
+    if @inst.destroy
       respond_to do |format|
         format.html {
-          flash[:success] = "Member successfully deleted"
+          flash[:success] = "Deletion successful"
           if cur_id == des_id
-            redirect_to "/user/sign_out"
+            redirect_to "/usr/sign_out"
           else
             redirect_to "/"
           end
         }
-        format.json {
-          render :json => {:success => "Member deleted"}
+        format.js {
+          render :json => {:success => "Deletion successful"}
         }
       end
     else
@@ -63,54 +52,12 @@ class MembersController < ApplicationController
         format.html {
           flash[:error] = err_str
           redirect_to "/"
-          return
         }
         format.json {
-          render :status => 500, :json => {:error => err_str}
+          render :json => {:error => err_str}, :status => 500
         }
       end
     end
   end
 
-  def edit
-    return unless protect_against_missing do
-      @user = User.find params[:id]
-    end
-    authorize_action_for @user
-  end
-
-  def update
-    return unless protect_against_missing do
-      print params.to_json
-      @user = User.find params[:id]
-    end
-
-    authorize_action_for @user
-
-    if @user.update_profile params[:user]
-      flash[:success] = "Profile updated successful"
-      respond_to do |format|
-        format.html {
-          redirect_to :action => :show
-        }
-        format.json {
-          render :json => @user
-        }
-      end
-    else
-      err_str = "Profile could not be updated"
-      flash[:error] = err_str
-      respond_to do |format|
-        format.html {
-          redirect_to :action => :edit
-        }
-        format.json {
-          render :status => 500, :json => {
-            :error => err_str,
-            :details => @user.errors
-          }
-        }
-      end
-    end
-  end
 end

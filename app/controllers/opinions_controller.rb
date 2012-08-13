@@ -5,6 +5,7 @@ class OpinionsController < ApplicationController
     # [WARNING] Security breach
     target = Kernel.const_get(params[:target_type]).find(params[:target_id])
     o.target = target
+    o.target_type = params[:target_type]
     o.creator = current_user
     o.optype = params[:optype]
     o.score_change = 0

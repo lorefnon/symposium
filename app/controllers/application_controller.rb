@@ -1,30 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  respond_to :html, :json
 
   def model_class; controller_name.classify.constantize end
-
-  # xhr_content, flash_type, flash_content, redir_config, json_status, json_hash
-  def respond_to_all config
-    respond_to do |format|
-      format.html {
-        if config.has_param? :xhr_content and request.xhr?
-          render :text => config[:xhr_content]
-          return
-        end
-        if config.has_param? :flash_content
-          flash[config[:flash_type]] = config[:flash_content]
-        end
-      }
-
-      if config.has_param? :json_hash
-        json_response = { :json => config[:json_hash] }
-        json_response[:status] = config[:status] if config.has_param? :status
-        format.json {
-          render json_response
-        }
-      end
-    end
-  end
 
   def retrieve_inst
     protect_against_missing do
@@ -32,8 +10,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def protect_against_missing
-    unless params.has_key? :id
+  def protect_against_missing id=:id
+    unless params.has_key? id
       declare_not_found
       return false
     end
@@ -48,14 +26,15 @@ class ApplicationController < ActionController::Base
 
   def declare_not_found
     decl_str = "We couldn't find what you were looking for";
-    respond_to_all({
-      :xhr_content => "<div class='alert alert-error'>#{decl_str}</div>",
-      :flash_type => :error,
-      :flash_content => "#{decl_str} Why not try finding by name ?",
-      :redir_config => { :action => :index },
-      :status => :not_found,
-      :json_hash => {:error => "#{decl_str}"}
-    })
+    respond_to do |format|
+      format.html {
+        flash[:error] = "#{decl_str} Why not try finding by name ?"
+        redirect_to :action => :index
+      }
+      format.json {
+        render :json => {:error => "#{decl_str}"}, :status => :not_found
+      }
+    end
   end
 
   def show
@@ -70,24 +49,89 @@ class ApplicationController < ActionController::Base
   def update
     declare_not_found unless retrieve_inst
     authorize_action_for @inst
-    if @inst.update_attributes params[self.class.name.downcase.to_sym]
-      respond_to_all({
-                       :flash_type => :success,
-                       :flash_content => "Question was submitted",
-                       :redir_config => { :action => :show },
-                       :json_hash => @inst.to_json
-                     })
+    if @inst.update_attributes params[model_class.name.downcase.to_sym]
+      respond_to do |format|
+        format.html {
+          flash[:success] = "Submission successful"
+          redirect_to :action => :show
+        }
+        format.json {
+          render :json => @inst
+        }
+      end
     else
-      respond_to_all({
-                       :flash_type => :error,
-                       :flash_content => "Update failed",
-                       :redir_content => { :action => :edit },
-                       :status => 500,
-                       :json_hash => {
-                         :error => "Update failed",
-                         :details => @inst.errors
-                       }
-                     })
+      respond_to do |format|
+        format.html {
+          flash[:error] = "Update failed"
+          redirect_to :action => :edit
+        }
+        format.json {
+          render :json => {
+            :error => "Update failed",
+            :details => @inst.errors
+          }, :status => 500
+        }
+      end
     end
   end
+
+  def destroy
+    declare_not_found unless retrieve_inst
+    authorize_action_for @inst
+
+    if @inst.destroy
+      respond_to do |format|
+        format.html {
+          flash[:success] = "Deletion successful"
+          redirect_to :action => :index
+        }
+        format.json {
+          render :json => {:success => "Deletion successful"}
+        }
+      end
+    else
+      respond_to do |format|
+        format.html {
+          flash[:error] = "Deletion failed"
+          redirect_to :action => :show
+        }
+        format.json {
+          render :json => {:error => "Deletion failed"}, :status => 500
+        }
+      end
+    end
+  end
+
+  def new
+    @inst = model_class.new
+  end
+
+  def create
+    mname = model_class.name.downcase.to_sym
+    declare_not_found unless params.has_key? mname
+    @inst = model_class.new params[mname]
+    @inst.creator = current_user
+    if @inst.save
+      respond_to do |format|
+        format.html {
+          flash[:success] = "Creation successful"
+          redirect_to :action => :show, :id => @inst.id
+        }
+        format.json {
+          render :json => @inst
+        }
+      end
+    else
+      respond_to do |format|
+        format.html {
+          flash[:error] = "Creation failed"
+          redirect_to :action => :edit, :id => @inst.id
+        }
+        format.json {
+          render :json => {:error => "Creation failed"}, :status => 500
+        }
+      end
+    end
+  end
+
 end
