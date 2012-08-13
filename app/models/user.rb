@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   :last_name, :mid_name, :address, :city, :zip, :country, :gender, :reputation,
   :is_active, :signature
 
-  attr_protected :password, :password_confirmation, :role, :reputation
+  attr_protected :role, :reputation
 
   has_many :tags_created,
   :class_name => "Tag",
@@ -99,7 +99,7 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :moderated_tags,
   :class_name => "Tag",
-  :join_table => :moderator_tags,
+  :join_table => :moderators_tags,
   :association_foreign_key => :moderator_id
 
   has_many :questions_under_moderation,
