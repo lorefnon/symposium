@@ -5,7 +5,7 @@ class CreateOpinions < ActiveRecord::Migration
       t.integer :creator_id, :null => false
       t.integer :score_change, :null => false
       t.integer :target_id, :null => false
-      t.integer :target_type, :null => false # question, answer
+      t.string :target_type, :null => false # question, answer
       t.timestamps
     end
   end
