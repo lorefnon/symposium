@@ -34,10 +34,13 @@ require "subscribable"
 
 class Answer < ActiveRecord::Base
   include Authority::Abilities
+  self.authorizer_name = "AnswersAuthorizer"
+
   attr_accessible :body
   belongs_to :creator, :class_name => "User"
   belongs_to :question
   has_many :comments
+
   has_many :moderators, :through => :question
 
   is_opinable
