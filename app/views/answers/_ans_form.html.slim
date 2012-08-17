@@ -1,0 +1,11 @@
+.form-wrapper
+  h2 Contribute an answer
+  = form_for ans, :url => {:action => action}, :html => {:class => "form-vertical"} do |f|
+    fieldset
+      .control-group
+        = f.label :body, :class => "control-label"
+        .controls
+          = f.text_area :body
+      .control-group
+        .controls
+          = f.submit "Submit Answer"

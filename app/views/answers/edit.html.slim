@@ -5,12 +5,12 @@
     | $(function(){$("textarea").cleditor()})
 .que-super-wrapper
   .que-wrapper
-    h1.que-title = @que.title
+    h1.que-title = @inst.question.title
     .que-descr
-      = @que.description
+      = @inst.question.description
     .que-meta-wrapper
       | Asked by &nbsp;
-      a.user-link href="/members/#{@que.creator.id}" #{@que.creator.user_name}
-      |  #{time_ago_in_words(@que.created_at)} ago
+      a.user-link href="/members/#{@inst.question.creator.id}" #{@inst.question.creator.user_name}
+      |  #{time_ago_in_words(@inst.question.created_at)} ago
   .ans-wrapper
-    = render :partial => "ans_form", :locals => {:ans => @ans, :action => :create}
+    = render :partial => "ans_form", :locals => {:ans => @inst, :action => :update}
