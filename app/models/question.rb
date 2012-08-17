@@ -49,4 +49,8 @@ class Question < ActiveRecord::Base
   default_value_for :downvote_count, 0
 
   self.per_page = 10
+
+  belongs_to :accepted_ans,
+  :class_name => "Answer"
+
 end

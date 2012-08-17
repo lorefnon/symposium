@@ -18,4 +18,34 @@ class QuestionsController < ApplicationController
     respond_with @questions
   end
 
+  def accept_ans
+    protect_against_missing(:id) do
+      @inst.accepted_ans = Answer.find params[:id]
+      if @inst.save
+        respond_to do |format|
+          format.html {
+            flash[:success] = "Answer accepted"
+            redirect_to :action => :show
+          }
+          format.json {
+            render :json => @inst
+          }
+        end
+      else
+        respond_to do |format|
+          format.html {
+            flash[:error] = "Could not accept the answer"
+            redirect_to :action => :show
+          }
+          format.json {
+            render :json => {
+              :error => "Error while accepting answer",
+              :details => @inst.errors,
+            }, :status => 500
+          }
+        end
+      end
+    end
+
+  end
 end

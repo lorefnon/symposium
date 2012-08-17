@@ -8,6 +8,7 @@ class CreateQuestions < ActiveRecord::Migration
       t.integer :downvote_count, :default => 0
       t.boolean :is_closed, :default => false
       t.boolean :is_active, :default => true
+      t.integer :accepted_ans_id
       t.timestamps
     end
   end
