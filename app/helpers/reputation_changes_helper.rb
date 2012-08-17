@@ -1,0 +1,2 @@
+module ReputationChangesHelper
+end

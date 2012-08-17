@@ -1,4 +1,8 @@
 Symposium::Application.routes.draw do
+  resources :reputation_changes
+
+  resources :activities
+
   resources :notifications
 
   resources :opinions

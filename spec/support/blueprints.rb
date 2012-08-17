@@ -36,3 +36,11 @@ end
 Notification.blueprint do
   # Attributes here
 end
+
+Activity.blueprint do
+  # Attributes here
+end
+
+ReputationChange.blueprint do
+  # Attributes here
+end
