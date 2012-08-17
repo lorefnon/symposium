@@ -32,3 +32,7 @@ end
 TagPriviledge.blueprint do
   # Attributes here
 end
+
+Notification.blueprint do
+  # Attributes here
+end

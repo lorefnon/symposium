@@ -27,7 +27,6 @@ class MembersController < ApplicationController
   end
 
   def destroy
-    declare_not_found unless retrieve_inst
     authorize_action_for @inst
     cur_id = current_user.id
     des_id = @inst.id

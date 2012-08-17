@@ -1,4 +1,6 @@
 Symposium::Application.routes.draw do
+  resources :notifications
+
   resources :opinions
 
   resources :questions, :shallow => true do
@@ -76,4 +78,8 @@ Symposium::Application.routes.draw do
 
   match '/community' => 'members#index'
   match '/opine/:optype/:target_type/:target_id' => 'opinions#create'
+
+  match '/questions/:id/accept/:answer_id' => 'questions#accept_ans',
+  :via => :put
+
 end
