@@ -2,6 +2,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   respond_to :html, :json
 
+  before_filter :ensure_resource_exists, :except => [:new, :create, :index]
+  private
+
   def model_class; controller_name.classify.constantize end
 
   def retrieve_inst
@@ -37,17 +40,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def ensure_resource_exists
+    declare_not_found unless retrieve_inst
+  end
+
+  public
+
   def show
-    if retrieve_inst then respond_with @inst else declare_not_found end
+    respond_with @inst
   end
 
   def edit
-    declare_not_found unless retrieve_inst
     authorize_action_for @inst
   end
 
   def update
-    declare_not_found unless retrieve_inst
     authorize_action_for @inst
     if @inst.update_attributes params[model_class.name.downcase.to_sym]
       respond_to do |format|
@@ -76,7 +83,6 @@ class ApplicationController < ActionController::Base
   end
 
   def destroy
-    declare_not_found unless retrieve_inst
     authorize_action_for @inst
 
     if @inst.destroy
