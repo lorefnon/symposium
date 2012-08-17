@@ -50,5 +50,5 @@ class Answer < ActiveRecord::Base
   default_value_for :downvote_count, 0
   default_value_for :upvote_count, 0
   default_value_for :is_flagged, false
-
+  default_value_for :is_active, true
 end

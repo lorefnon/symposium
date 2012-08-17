@@ -1,5 +1,5 @@
 class AnswersAuthorizer < ApplicationAuthorizer
-  def self.creatable_by? (user)
+  def self.default(adjective, user)
     user.is_active
   end
 end

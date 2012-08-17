@@ -21,7 +21,7 @@ class ApplicationAuthorizer < Authority::Authorizer
       user.role == "admin"
   end
   def deletable_by? (user)
-    (resource.creator == user and resource.is_active) or
+    (resource.creator == user) or
       (not resource.moderators.nil? and resource.moderators.include? user) or
       user.role == "admin"
   end
