@@ -7,6 +7,6 @@
     a href="/answers/#{ans.id}" [link]
   - if ans.question.accepted_ans == ans
     span.badge.badge-success Accepted
-  - elsif current_user.can_update? ans.question
+  - elsif not current_user.nil? and current_user.can_update? ans.question
     = form_tag "/questions/#{ans.question.id}/accept/#{ans.id}", :method => "put" do
       = submit_tag "Accept Answer"
