@@ -4,7 +4,7 @@ class CreateComments < ActiveRecord::Migration
       t.text :body
       t.integer :creator_id
       t.integer :target_id
-      t.integer :target_type
+      t.string :target_type
       t.boolean :is_flagged
       t.timestamps
     end
