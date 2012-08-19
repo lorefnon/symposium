@@ -14,7 +14,7 @@ class QuestionsController < ApplicationController
       @questions = @questions.where :tags => {:name => tags}
     end
 
-    @questions = @questions.paginate :page => params[:page]
+    @questions = @questions.paginate(:page => params[:page]).order("created_at DESC")
     respond_with @questions
   end
 

@@ -55,4 +55,7 @@ group :test, :development do
   gem 'autotest-rails'
   gem 'autotest-notification'
   gem 'spork-rails'
+  gem 'cucumber-rails'
+  gem 'capybara'
+  gem 'database_cleaner'
 end
