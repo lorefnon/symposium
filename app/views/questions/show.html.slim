@@ -1,11 +1,9 @@
 .que-super-wrapper
   = qbox @inst
   .ans-wrapper
-    .ans-tbar
-      a.btn.btn-primary href="/questions/#{@inst.id}/answers/new" Add an answer
     .ans-list-wrapper
       - if @inst.answers.length == 0
-        .no-ans-decl
+        .no-ans-decl No answers Yet
       - else
         ul.ans-list
           - @inst.answers.each do |ans|
