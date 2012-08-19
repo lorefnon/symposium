@@ -11,6 +11,9 @@
 #
 
 class Subscription < ActiveRecord::Base
+  include Authority::Abilities
+  self.authorizer_name = "SubscriptionAuthorizer"
+  attr_accessible :target_id, :target_type, :subscriber_id
   belongs_to :subscriber, :class_name => "User"
   belongs_to :target, :polymorphic => true
 end
