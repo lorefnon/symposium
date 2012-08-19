@@ -3,9 +3,11 @@ module Subscribable
   def is_subscribable
     has_many :subscriptions, :as => :target
     has_many :subscribers, :through => :subscriptions
+
+    include InstanceMethods
   end
 
-  def InstanceMethods
+  module InstanceMethods
     def subscribable?
       true
     end

@@ -34,6 +34,8 @@ module Opinable
     has_many :flaggers,
     :through => :flags,
     :source => :creator
+
+    include InstanceMethods
   end
 
   module InstanceMethods

@@ -8,6 +8,7 @@ module Commentable
     :through => :comments,
     :source => :creator
 
+    include InstanceMethods
   end
 
   module InstanceMethods
