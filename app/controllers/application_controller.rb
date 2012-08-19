@@ -3,9 +3,12 @@ class ApplicationController < ActionController::Base
   respond_to :html, :json
 
   before_filter :ensure_resource_exists, :except => [:new, :create, :index]
+  before_filter :setup_flash
+
   private
 
-  def model_class; controller_name.classify.constantize end
+  def model_class_name; controller_name.classify end
+  def model_class; model_class_name.constantize end
 
   def retrieve_inst
     protect_against_missing do
@@ -27,17 +30,30 @@ class ApplicationController < ActionController::Base
     true
   end
 
-  def declare_not_found
-    decl_str = "We couldn't find what you were looking for";
+  def declare_permission_denied msg = "Operation not permitted"
     respond_to do |format|
       format.html {
-        flash[:error] = "#{decl_str} Why not try finding by name ?"
-        redirect_to :action => :index
+        flash[:error] = msg
+        redirect_to :back
       }
       format.json {
-        render :json => {:error => "#{decl_str}"}, :status => :not_found
+        render :json => {:error => msg}, :status => 403
       }
     end
+    @done_rendering = true
+  end
+
+  def declare_not_found decl_str = "One or more requested resource(s) not found"
+    respond_to do |format|
+      format.html {
+        flash[:error] = decl_str
+        redirect_to :back
+      }
+      format.json {
+        render :json => {:error => decl_str}, :status => :not_found
+      }
+    end
+    @done_rendering = true
   end
 
   def ensure_resource_exists
@@ -56,56 +72,12 @@ class ApplicationController < ActionController::Base
 
   def update
     authorize_action_for @inst
-    if @inst.update_attributes params[model_class.name.downcase.to_sym]
-      respond_to do |format|
-        format.html {
-          flash[:success] = "Submission successful"
-          redirect_to :action => :show
-        }
-        format.json {
-          render :json => @inst
-        }
-      end
-    else
-      respond_to do |format|
-        format.html {
-          flash[:error] = "Update failed"
-          redirect_to :action => :edit
-        }
-        format.json {
-          render :json => {
-            :error => "Update failed",
-            :details => @inst.errors
-          }, :status => 500
-        }
-      end
-    end
+    gen_updation_response( @inst.update_attributes( params[model_class.name.downcase.to_sym]))
   end
 
   def destroy
     authorize_action_for @inst
-
-    if @inst.destroy
-      respond_to do |format|
-        format.html {
-          flash[:success] = "Deletion successful"
-          redirect_to :action => :index
-        }
-        format.json {
-          render :json => {:success => "Deletion successful"}
-        }
-      end
-    else
-      respond_to do |format|
-        format.html {
-          flash[:error] = "Deletion failed"
-          redirect_to :action => :show
-        }
-        format.json {
-          render :json => {:error => "Deletion failed"}, :status => 500
-        }
-      end
-    end
+    gen_deletion_response( @inst.destroy )
   end
 
   def new
@@ -117,27 +89,121 @@ class ApplicationController < ActionController::Base
     declare_not_found unless params.has_key? mname
     @inst = model_class.new params[mname]
     @inst.creator = current_user
-    if @inst.save
-      respond_to do |format|
-        format.html {
-          flash[:success] = "Creation successful"
-          redirect_to :action => :show, :id => @inst.id
-        }
-        format.json {
-          render :json => @inst
-        }
-      end
-    else
-      respond_to do |format|
-        format.html {
-          flash[:error] = "Creation failed"
-          redirect_to :action => :edit, :id => @inst.id
-        }
-        format.json {
-          render :json => {:error => "Creation failed"}, :status => 500
-        }
-      end
-    end
+    gen_creation_response( @inst.save )
   end
 
+  private
+
+  def setup_flash
+    flash[:aux_errors] = []
+  end
+
+  def gen_creation_failure_response
+    msg = @msg || "Creation failed"
+    details = @details || []
+    status = @status || 403
+    respond_to do |format|
+      format.html {
+        flash[:error] = msg
+        flash[:aux_errors] += details
+        redirect_to(:back) and return
+      }
+      format.json {
+        render :json => {:error => msg, :details => details}, :status => status
+      }
+    end
+    @done_rendering = true
+  end
+
+  def gen_creation_success_response
+    msg = @msg || "Creation successful"
+    details = @details || []
+    respond_to do |format|
+      format.html {
+        flash[:success] = msg
+        redirect_to(:action => :show, :id => @inst.id) and return
+      }
+      format.json {
+        render :json => @inst
+      }
+    end
+    @done_rendering = true
+  end
+
+  def gen_updation_failure_response
+    msg = @msg || "Update failed."
+    details = @details || []
+    status = @status || 403
+    respond_to do |format|
+      format.html {
+        flash[:error] = msg,
+        flash[:aux_errors] += details
+        redirect_to :back
+      }
+      format.json {
+        render :json => {:error => msg, :details => details}, :status => status
+      }
+    end
+    @done_rendering = true
+  end
+
+  def gen_updation_success_response
+    msg = @msg || "Update successful"
+    respond_to do |format|
+      format.html {
+        flash[:success] = msg
+        redirect_to :action => :show
+      }
+      format.json {
+        render :json => @inst
+      }
+    end
+    @done_rendering = true
+  end
+
+  def gen_deletion_success_response
+    msg = @msg || "Deletion successful."
+    respond_to do |format|
+      format.html {
+        flash[:success] = msg
+        redirect_to :back
+      }
+      format.json {
+        render :json => {:success => msg }
+      }
+    end
+    @done_rendering = true
+  end
+
+  def gen_deletion_failure_response
+    msg = @msg || "Deletion failed."
+    details = @details || []
+    status = @status || 403
+    respond_to do |format|
+      format.html {
+        flash[:error] = msg
+        redirect_to :back
+      }
+      format.json {
+        render :json => {:error => msg, :details => details}, :status => status
+      }
+    end
+    @done_rendering = true
+  end
+
+  verb_axn_mapper = {
+    :create => :creation,
+    :update => :updation,
+    :destroy => :deletion,
+  }
+
+  verb_axn_mapper.each do |verb, axn|
+    # All gen_axn_response functions will delegate to user
+    # defined gen_axn_success_response or gen_axn_failure_response
+    # whichever is appropriate
+    define_method "gen_#{axn}_response" do |success|
+      status = if success then "success" else "failure" end
+      self.send "gen_#{axn}_#{status}_response" unless @done_rendering
+    end
+  end
 end
