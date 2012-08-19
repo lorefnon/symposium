@@ -11,7 +11,9 @@
 #
 
 class Tag < ActiveRecord::Base
-  attr_accessible :name, :description
+  include Authority::Abilities
+  self.authorizer_name = "TagsAuthorizer"
+  attr_accessible :name, :description, :creator
 
   has_and_belongs_to_many :questions
   belongs_to :creator, :class_name => "User"
@@ -29,6 +31,9 @@ class Tag < ActiveRecord::Base
   :source => :tag
 
   is_subscribable
+
+  validates :name, :presence => true
+  validates :creator_id, :presence => true
 
   def as_json(options)
     if options.nil? then options = {} end
