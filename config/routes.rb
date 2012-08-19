@@ -1,10 +1,6 @@
 Symposium::Application.routes.draw do
   resources :reputation_changes
-
   resources :activities
-
-  resources :notifications
-
   resources :opinions
 
   resources :questions, :shallow => true do
@@ -20,6 +16,10 @@ Symposium::Application.routes.draw do
     resources :answers do
     end
     resources :comments do
+    end
+    resources :subscriptions do
+    end
+    resources :notifications do
     end
   end
 
