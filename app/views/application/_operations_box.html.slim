@@ -1,12 +1,16 @@
 - unless current_user.nil?
-  .operations-wrapper
-    - controller_name = target.class.name.pluralize.downcase
-    - if current_user.can_delete? target
-      = button_to "Delete", {:controller => controller_name, :action => :destroy, :id => target.id}, {:method => :delete}
-    - if current_user.can_update? target
-      = button_to "Edit", { :controller => controller_name, :action => :edit, :id => target.id}, {:method => :get}
-    - if is_subscribable
-      = form_tag "/members/#{current_user.id}/subscriptions", :method => "post" do
-        = hidden_field_tag "subscription[target_id]", target.id
-        = hidden_field_tag "subscription[target_type]", target.class.name
-        = submit_tag "Subscribe"
+  table
+    tr
+      - controller_name = target.class.name.pluralize.downcase
+      - if current_user.can_delete? target
+        td
+          = button_to "Delete", {:controller => controller_name, :action => :destroy, :id => target.id}, {:method => :delete}
+      - if current_user.can_update? target
+        td
+          = button_to "Edit", { :controller => controller_name, :action => :edit, :id => target.id}, {:method => :get}
+      - if is_subscribable
+        td
+          = form_tag "/members/#{current_user.id}/subscriptions", :method => "post" do
+            = hidden_field_tag "subscription[target_id]", target.id
+            = hidden_field_tag "subscription[target_type]", target.class.name
+            = submit_tag "Subscribe"

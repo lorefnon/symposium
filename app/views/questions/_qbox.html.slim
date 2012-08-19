@@ -1,9 +1,11 @@
 = creator_box que, "ask"
 = opinion_box que
-= operations_box que
 .que-wrapper
   h1.que-title
     = que.title
   .que-descr
     = que.description
   .que-meta-wrapper
+  .operations-wrapper
+    a.btn.btn-primary href="/questions/#{@inst.id}/answers/new" Add an answer
+    = operations_box que

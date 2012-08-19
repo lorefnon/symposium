@@ -23,8 +23,9 @@ html lang="en"
     #page_wrapper
       #flash_wrapper
         - flash.each do |key, msg|
-          .flash id="flash_#{key}"
-            = msg
+          - unless flash[key].empty?
+            .flash id="flash_#{key}"
+              = msg
       header
         nav
           - unless user_signed_in?
@@ -33,6 +34,9 @@ html lang="en"
               a.btn.btn-inverse href="/users/sign_up.html" Register
           - else
             .btn-group
+              a.btn.btn-inverse href="/members/#{current_user.id}/notifications"
+                | Notifications
+                span.badge.badge-success= current_user.notifications.unread.length
               a.btn.btn-inverse href="#" Dashboard
               a.btn.btn-inverse href="/users/sign_out" Log Out
           ul

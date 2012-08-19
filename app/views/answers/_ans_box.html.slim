@@ -1,12 +1,15 @@
 = creator_box ans, "answer"
 = opinion_box ans
-= operations_box ans
 .ans-body
-  == ans.body
-  hr
-    a href="/answers/#{ans.id}" [link]
-  - if ans.question.accepted_ans == ans
-    span.badge.badge-success Accepted
-  - elsif not current_user.nil? and current_user.can_update? ans.question
-    = form_tag "/questions/#{ans.question.id}/accept/#{ans.id}", :method => "put" do
-      = submit_tag "Accept Answer"
+  .ans-body-inner
+    == ans.body
+  .operations-wrapper
+    .lshift
+      - if ans.question.accepted_ans == ans
+        span.badge.badge-success Accepted
+      - elsif not current_user.nil? and current_user.can_update? ans.question
+        .accept-form-wrapper
+          = form_tag "/questions/#{ans.question.id}/accept/#{ans.id}", :method => "put" do
+            = submit_tag "Accept Answer"
+      a.permalink href="/answers/#{ans.id}" [link]
+    = operations_box ans
