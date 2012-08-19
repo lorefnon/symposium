@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120810034555) do
+ActiveRecord::Schema.define(:version => 20120817022431) do
+
+  create_table "activities", :force => true do |t|
+    t.integer  "subject_id"
+    t.string   "subject_type"
+    t.string   "description"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "answers", :force => true do |t|
     t.text     "body",                              :null => false
@@ -29,7 +37,7 @@ ActiveRecord::Schema.define(:version => 20120810034555) do
     t.text     "body"
     t.integer  "creator_id"
     t.integer  "target_id"
-    t.integer  "target_type"
+    t.string   "target_type"
     t.boolean  "is_flagged"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
@@ -38,6 +46,15 @@ ActiveRecord::Schema.define(:version => 20120810034555) do
   create_table "moderators_tags", :force => true do |t|
     t.integer "tag_id"
     t.integer "moderator_id"
+  end
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "priority"
+    t.integer  "activity_id"
+    t.boolean  "is_read"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "opinions", :force => true do |t|
@@ -66,6 +83,14 @@ ActiveRecord::Schema.define(:version => 20120810034555) do
   create_table "questions_tags", :force => true do |t|
     t.integer "question_id"
     t.integer "tag_id"
+  end
+
+  create_table "reputation_changes", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "change"
+    t.integer  "activity_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "subscriptions", :force => true do |t|

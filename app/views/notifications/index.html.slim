@@ -1,0 +1,10 @@
+ul#notif_list
+  - @notifications.each do |n|
+    li
+      - subject = n.activity.subject
+      - target = if subject.instance_of? Opinion then subject.target else subject end
+      span.member-name
+        a href="/members/#{n.activity.initiator.id}" = n.activity.initiator.user_name
+      span = "#{n.activity.description} a"
+      span.target-ref
+        a href=" #{url_for(target)} " = target.class.name
