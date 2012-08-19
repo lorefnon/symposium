@@ -126,6 +126,12 @@ class User < ActiveRecord::Base
   :through => :tag_priviledges,
   :source => :tag
 
+  has_many :initiated_activiites,
+  :class_name => "Activity",
+  :foreign_key => :initiator_id
+
+  has_many :notifications
+
   is_subscribable()
 
   scope :active, where(:is_active => true)
@@ -207,7 +213,7 @@ class User < ActiveRecord::Base
   },
   :allow_blank => true
 
-  default_value_for :reputation, 100
+  default_value_for :reputation, 1
   default_value_for :is_active, true
   default_value_for :role, :participant
 
@@ -278,4 +284,5 @@ class User < ActiveRecord::Base
 
     ret = (flag and self.update_attributes config)
   end
+
 end
