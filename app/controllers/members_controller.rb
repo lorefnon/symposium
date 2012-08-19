@@ -1,5 +1,4 @@
 class MembersController < ApplicationController
-
   def model_class; User end
 
   def index
@@ -30,33 +29,26 @@ class MembersController < ApplicationController
     authorize_action_for @inst
     cur_id = current_user.id
     des_id = @inst.id
-
-    if @inst.destroy
-      respond_to do |format|
-        format.html {
-          flash[:success] = "Deletion successful"
-          if cur_id == des_id
-            redirect_to "/usr/sign_out"
-          else
-            redirect_to "/"
-          end
-        }
-        format.js {
-          render :json => {:success => "Deletion successful"}
-        }
-      end
-    else
-      err_str = "Member could not be deleted"
-      respond_to do |format|
-        format.html {
-          flash[:error] = err_str
-          redirect_to "/"
-        }
-        format.json {
-          render :json => {:error => err_str}, :status => 500
-        }
-      end
-    end
+    @success =  @inst.destroy
   end
 
+  private
+
+  def gen_deletion_success_response
+    msg = "User account successfully removed"
+    cur_id = current_user.id
+    des_id = @inst.id
+
+    format.html {
+      flash[:success] = msg
+      if cur_id == des_id
+        redirect_to "/users/sign_out"
+      else
+        redirect_to "/"
+      end
+    }
+    format.js {
+      render :json => {:success => msg}
+    }
+  end
 end
