@@ -1,2 +1,2 @@
-class ReputationChangesController < ApplicationController
+class ReputationChangesController < SymposiumBaseController
 end

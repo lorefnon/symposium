@@ -1,4 +1,4 @@
-class MembersController < ApplicationController
+class MembersController < SymposiumBaseController
   def model_class; User end
 
   def index

@@ -1,4 +1,4 @@
-class NotificationsController < ApplicationController
+class NotificationsController < SymposiumBaseController
   def index
     return unless protect_against_missing :member_id do
       @user = User.find params[:member_id]

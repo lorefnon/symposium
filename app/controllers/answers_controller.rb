@@ -1,4 +1,4 @@
-class AnswersController < ApplicationController
+class AnswersController < SymposiumBaseController
   before_filter :authenticate_user! , :except => [:show]
   authorize_actions_for Answer, :except => [:index, :show]
   respond_to :json, :html

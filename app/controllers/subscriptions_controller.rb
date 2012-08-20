@@ -1,4 +1,4 @@
-class SubscriptionsController < ApplicationController
+class SubscriptionsController < SymposiumBaseController
   before_filter :authenticate_user! , :except => [:index, :show]
   authorize_actions_for Subscription
   def create

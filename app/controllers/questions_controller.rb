@@ -1,20 +1,58 @@
-class QuestionsController < ApplicationController
+class QuestionsController < SymposiumBaseController
   before_filter :authenticate_user! , :except => [:index, :show]
   authorize_actions_for Question, :except => [:index, :show]
   respond_to :json, :html
 
+  def setup_tags
+    if params.has_key? :suggested_tags
+      tags = params[:suggested_tags].split(",").collect{|x| x.strip}
+      tags.each do |tag_name|
+        tag = Tag.where(:name => tag_name).first
+        if tag.nil?
+          if current_user.can_create? Tag
+            @inst.tags << Tag.create({:name => tag_name, :creator => current_user})
+          else
+            print "================> [Creation failed for : #{tag_name}]"
+            @details ||= []
+            @details.push "Creation of tag #{tag_name} was not permitted."
+          end
+        else
+          @inst.tags << tag
+        end
+      end
+    end
+  end
+
+  def create
+    declare_not_found unless params.has_key? :question
+    @inst = Question.new params[:question]
+    @inst.creator = current_user
+    setup_tags
+    gen_creation_response @inst.save
+  end
+
+  def update
+    declare_not_found unless params.has_key? :question
+    authorize_action_for @inst
+    setup_tags
+    gen_updation_response @inst.update_attributes params[:question]
+  end
+
   def index
     params[:page] = 1 unless params.has_key? :page
 
+    # @questions = Question
     @questions = Question.includes :tags
     if params.has_key? :tags
-      tags = params[:tags].split(" ")
-      len = tags.length
-      tags.each do |tag| tag.strip end
-      @questions = @questions.where :tags => {:name => tags}
+      @tags = params[:tags].split(" ").map{|t| t.strip}
+      len = @tags.length
+      @questions = @questions.where :tags => {:name => @tags}
     end
 
-    @questions = @questions.paginate(:page => params[:page]).order("created_at DESC")
+    @questions = @questions
+      .paginate(:page => params[:page])
+      .order("questions.created_at DESC")
+
     respond_with @questions
   end
 

@@ -1,2 +1,5 @@
-class TagsController < ApplicationController
+class TagsController < SymposiumBaseController
+  def index
+    
+  end
 end

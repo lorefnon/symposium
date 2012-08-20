@@ -1,2 +1,2 @@
-class ActivitiesController < ApplicationController
+class ActivitiesController < SymposiumBaseController
 end
