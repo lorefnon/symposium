@@ -13,7 +13,7 @@
 
 class Opinion < ActiveRecord::Base
   attr_accessible :optype, :target_id, :target_type
-  after_save :post_save
+  before_save :pre_save
   belongs_to :creator, :class_name => "User"
   belongs_to :target, :polymorphic => true
 
@@ -51,13 +51,12 @@ class Opinion < ActiveRecord::Base
       optype == "downvote"
   end
 
-  def post_save
-    return unless optype_changed?
-    if removes_upvote? then target.upvote_count -= 1 end
-    if removes_downvote? then target.downvote_count -= 1 end
-    if adds_upvote? then target.upvote_count += 1 end
-    if adds_downvote? then target.downvote_count += 1 end
-    target.save
+  def pre_save
+    return true unless optype_changed?
+    target.upvote_count -= 1 if removes_upvote?
+    target.downvote_count -= 1 if removes_downvote?
+    target.upvote_count += 1 if adds_upvote?
+    target.downvote_count += 1 if adds_downvote?
 
     # change reputations:
     # --
@@ -84,38 +83,31 @@ class Opinion < ActiveRecord::Base
     target.creator.reputation = 1 if target.creator.reputation < 1
     creator.reputation = 1 if creator.reputation < 1
 
-    activity = Activity.new
-    activity.description = optype + "d"
-    activity.subject = self
+    @activity = Activity.new
+    @activity.description = optype + "d"
+    debugger
+    @activity.save
 
-    if target.creator.reputation_changed?
-      rep = ReputationChange.new
-      rep.user = target.creator
-      rep.activity = activity
-      rep.save
+    [target.creator, creator].each do |u|
+      if u.reputation_changed?
+        rep = ReputationChange.new
+        rep.user = u
+        rep.activity = @activity
+        rep.save
 
-      n = Notification.new
-      n.user = target.creator
-      n.activity = activity
-      n.save
+        n = Notification.new
+        n.user = target.creator
+        n.activity = @activity
+        n.save
 
-      target.creator.save
+        u.save
+      end
     end
+    true
+  end
 
-    if creator.reputation_changed?
-      rep = ReputationChange.new
-      rep.user = creator
-      rep.activity = activity
-      rep.save
-
-      n = Notification.new
-      n.user = creator
-      n.activity = activity
-      n.save
-
-      creator.save
-    end
-
-    activity.save
+  def post_save
+    @activity.subject = self
+    @activity.save
   end
 end
