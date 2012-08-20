@@ -47,5 +47,6 @@
               ul.que-tags
                 strong Tags :
                 - q.tags.each do |tag|
-                  li.badge= tag.name
+                  li.badge
+                    = link_to tag.name, :controller => "questions", :action => "index", :tags => tag.name
   = will_paginate @questions

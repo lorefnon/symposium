@@ -90,5 +90,4 @@ Symposium::Application.routes.draw do
 
   match '/questions/:id/accept/:answer_id' => 'questions#accept_ans',
   :via => :put
-
 end
