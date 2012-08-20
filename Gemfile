@@ -38,7 +38,7 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+gem 'debugger'
 
 gem 'chunky_png'
 gem 'slim-rails'
@@ -57,5 +57,6 @@ group :test, :development do
   gem 'spork-rails'
   gem 'cucumber-rails'
   gem 'capybara'
+  gem 'capybara-webkit'
   gem 'database_cleaner'
 end
