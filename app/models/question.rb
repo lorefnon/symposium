@@ -78,8 +78,8 @@ class Question < ActiveRecord::Base
 
   private
 
-  def after_save
-    desc = if created_at_saved? then "created" else "edited" end
+  def before_save
+    desc = if created_at_changed? then "created" else "edited" end
 
     activity = Activity.create :initiator => current_user,
     :subject_id => self.id,

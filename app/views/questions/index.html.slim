@@ -21,6 +21,12 @@
       == login_reqd_btn "Ask A question", "/questions/new", "btn-inverse", "icon-plus-sign"
       == login_reqd_btn "Invite Friends", "#", "btn-inverse", "icon-circle-arrow-right"
 #search_results
+  - unless @tags.nil? or @tags.empty?
+    h3.search-header
+      | Showing Questions for tags :
+      ul.tags-shown
+        - @tags.each do |tag|
+          li.badge= tag
   ul.que-list
     - @questions.each do |q|
       li.que-list-item
@@ -32,11 +38,14 @@
           p.que-descr= q.description
           .que-meta-wrapper
             p.que-response-meta
-              - if q.answers.length > 0
-                | #{q.answers.length} Answers so far.
-              - else
-                | No answers yet.
-            ul.que-tags
-              - q.tags.each do |tag|
-                li= tag.name
+              em
+                - if q.answers.length > 0
+                  | #{q.answers.length} Answers so far.
+                - else
+                  | No answers yet.
+            - if q.tags.length > 0
+              ul.que-tags
+                strong Tags :
+                - q.tags.each do |tag|
+                  li.badge= tag.name
   = will_paginate @questions
