@@ -11,7 +11,8 @@ module OpinionsHelper
       :upvote_title => "Upvote this answer",
       :downvote_title => "Downvote this answer",
       :upvote_class => "",
-      :downvote_class => ""
+      :downvote_class => "",
+      :method => if already_voted then "put" else "post" end
     }
 
     if not user_signed_in?
