@@ -23,9 +23,14 @@ html lang="en"
     #page_wrapper
       #flash_wrapper
         - flash.each do |key, msg|
-          - unless flash[key].empty?
+          - unless flash[key].nil? or flash[key].empty?
             .flash id="flash_#{key}"
-              = msg
+              - if msg.instance_of? Array
+                ul.flash-notif-list
+                  - msg.each do |item|
+                    li= item
+              - else
+                = msg
       header
         nav
           - unless user_signed_in?
@@ -33,10 +38,10 @@ html lang="en"
               a.btn.btn-inverse href="/users/sign_in.html" Login
               a.btn.btn-inverse href="/users/sign_up.html" Register
           - else
-            .btn-group
+            .btn-group#aux_btns
               a.btn.btn-inverse href="/members/#{current_user.id}/notifications"
-                | Notifications
-                span.badge.badge-success= current_user.notifications.unread.length
+                | Notifications : 
+                span#notif_count.badge.badge-success= current_user.notifications.unread.length
               a.btn.btn-inverse href="#" Dashboard
               a.btn.btn-inverse href="/users/sign_out" Log Out
           ul
