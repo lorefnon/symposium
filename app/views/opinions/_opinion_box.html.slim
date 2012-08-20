@@ -1,10 +1,25 @@
 .opinion-wrapper
   .like-wrapper
-    a href="/opine/upvote/#{target.class}/#{target.id}" class="#{upvote_class} btn upvote-btn"
-      img src="/assets/like.png"
-      span.like-count.badge.badge-success
-        = upvote_count
-    a href="/opine/downvote/#{target.class}/#{target.id}" class="#{downvote_class} btn downvote-btn"
-      img src="/assets/dislike.png"
-      span.dislike-count.badge.badge-warning
-        = downvote_count
+    = form_tag "/#{target.class}/#{target.id}/opinion/upvote", :method => "#{method}" do
+      span.badge.badge-info
+        span.badge.badge-inverse
+          = upvote_count
+        | Upvotes
+      br
+      = submit_tag "Upvote"
+    = form_tag "/#{target.class}/#{target.id}/opinion/downvote", :method => "#{method}" do
+      span.badge.badge-info
+        span.badge.badge-inverse
+          = downvote_count
+        | Downvotes
+      br
+      = submit_tag "Downvote"
+
+    / a href="/opine/upvote/#{target.class}/#{target.id}" class="#{upvote_class} btn upvote-btn"
+    /   img src="/assets/like.png"
+    /   span.like-count.badge.badge-success
+    /     = upvote_count
+    / a href="/opine/downvote/#{target.class}/#{target.id}" class="#{downvote_class} btn downvote-btn"
+    /   img src="/assets/dislike.png"
+    /   span.dislike-count.badge.badge-warning
+    /     = downvote_count
