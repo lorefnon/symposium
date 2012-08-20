@@ -25,10 +25,6 @@ Opinion.blueprint do
   to_flag { false}
 end
 
-Moderator.blueprint do
-  # Attributes here
-end
-
 TagPriviledge.blueprint do
   # Attributes here
 end
