@@ -15,14 +15,25 @@ Question.blueprint do
 end
 
 Answer.blueprint do
-  creator { User.make }
-  question { Question.make }
+  creator { User.make! }
+  question { Question.make! }
+end
+
+Comment.blueprint do
+  body { "Lorem ipsum dolor sit amet" }
+  creator { User.make! }
+  target { Question.make! }
 end
 
 Opinion.blueprint do
   action { "upvote" }
   score_change {0}
   to_flag { false}
+end
+
+Tag.blueprint do
+  name { "tag_#{sn}" }
+  creator { User.make! }
 end
 
 TagPriviledge.blueprint do
