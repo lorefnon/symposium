@@ -16,13 +16,13 @@ class ApplicationAuthorizer < Authority::Authorizer
     true
   end
   def updatable_by? (user)
-    (resource.creator == user and resource.is_active) or
-      (not resource.moderators.nil? and resource.moderators.include? user) or
-      user.role == "admin"
+    (resource.creator == user and resource.is_active) #or
+      (not resource.moderators.empty? and resource.moderators.include? user) or
+        user.role == "admin"
   end
   def deletable_by? (user)
-    (resource.creator == user) or
-      (not resource.moderators.nil? and resource.moderators.include? user) or
-      user.role == "admin"
+      (resource.creator == user) #or
+        (not resource.moderators.empty? and resource.moderators.include? user) or
+        user.role == "admin"
   end
 end
