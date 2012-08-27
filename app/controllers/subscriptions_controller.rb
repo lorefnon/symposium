@@ -1,6 +1,27 @@
 class SubscriptionsController < SymposiumBaseController
   before_filter :authenticate_user! , :except => [:index, :show]
   authorize_actions_for Subscription
+
+  def index
+    params[:target_type] ||= "questions"
+    @target_type = params[:target_type].singularize.capitalize
+
+    @subscriptions = Subscription
+      .where("subscriber_id = ? and target_type = ?",
+             params[:member_id], @target_type
+             )
+      .all
+
+    respond_to do |format|
+      format.html {
+        render "subscriptions/#{params[:target_type]}_index"
+      }
+      format.json {
+        render :json => @subscriptions
+      }
+    end
+  end
+
   def create
     unless params.has_key? :subscription
       respond_to do |format|
@@ -19,7 +40,7 @@ class SubscriptionsController < SymposiumBaseController
 
     s = Subscription.new params[:subscription]
 
-    if params.has_key? :user_id
+    if params.has_key? :member_id
       begin
         s.subscriber = User.find params[:member_id]
       rescue ActiveRecord::RecordNotFound
