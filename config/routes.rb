@@ -90,4 +90,15 @@ Symposium::Application.routes.draw do
 
   match '/questions/:id/accept/:answer_id' => 'questions#accept_ans',
   :via => :put
+
+  match '/:opinion_tgt_type/:opinion_tgt_id/:op_classifier' => 'members#index',
+  :optype => "upvote",
+  :constraints => {:op_classifier => /(upvoters)|(downvoters)/}
+
+  match '/:opinion_tgt_type/:opinion_tgt_id/downvoters' => 'members#index',
+  :optype => "downvote",
+  :via => :get
+
+  match '/members/:member_id/subscribed/:target_type' => 'subscriptions#index',
+  :constraints => {:target_type => /(questions)|(answers)|(users)/}
 end
