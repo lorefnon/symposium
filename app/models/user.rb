@@ -91,7 +91,9 @@ class User < ActiveRecord::Base
   :class_name => "Opinion",
   :foreign_key => "creator_id"
 
-  has_many :subscriptions, :foreign_key => :subscriber_id
+  has_many :opted_subscriptions,
+  :class_name => "Subscription",
+  :foreign_key => :subscriber_id
 
   has_many :subscribed_items,
   :through => :subscriptions,
@@ -111,13 +113,6 @@ class User < ActiveRecord::Base
   :class_name => "Answer",
   :through => :moderated_questions,
   :source => :answer
-
-  ["question", "answer", "comment", "user"].each do |item|
-    has_many ("subscribed_#{item}s").to_sym,
-    :through => :subscriptions,
-    :source => :target,
-    :conditions => {:target_type => item.capitalize}
-  end
 
   has_many :tag_priviledges
 
@@ -151,10 +146,7 @@ class User < ActiveRecord::Base
   :uniqueness => true
 
   [:first_name, :last_name].each do |field|
-    validates field, :format => {
-      :with => /^[a-zA-Z]*$/,
-      :message => field.to_s + " can comprise only of alphabets"
-    },
+    validates field,
     :length => {
       :minimum => 2,
       :maximum => 20
@@ -164,12 +156,8 @@ class User < ActiveRecord::Base
 
   validates :mid_name,
   :format => {
-      :with => /^[a-zA-Z]*$/,
+      :with => /^[a-zA-Z ]*$/,
       :message => "middle name can comprise only of alphabets"
-    },
-    :length => {
-      :minimum => 5,
-      :maximum => 20
     },
   :allow_blank => true
 
@@ -222,11 +210,7 @@ class User < ActiveRecord::Base
   end
 
   def gender=(gender)
-    if ["Male", "male","MALE" ,"m", "M"].include? gender
-      write_attribute(:gender, "m")
-    elsif ["Female", "female", "FEMALE", "f", "F"].include? gender
-      write_attribute(:gender, "f")
-    end
+    write_attribute :gender, gender.downcase[0]
   end
 
   def signature
@@ -284,5 +268,4 @@ class User < ActiveRecord::Base
 
     ret = (flag and self.update_attributes config)
   end
-
 end

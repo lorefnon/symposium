@@ -64,23 +64,6 @@ describe User do
     end
   end
 
-  describe "#first_name, #last_name" do
-    it "must comprise of alphabets only" do
-      @user.first_name = "Harry Potter"
-      @user.valid?.should be_false
-      @user.first_name = "crappy_name"
-      @user.valid?.should be_false
-      @user.first_name = "bond007"
-      @user.valid?.should be_false
-      @user.first_name = "harry"
-      @user.valid?.should be_true
-      @user.last_name = "x009"
-      @user.valid?.should be_false
-      @user.last_name = "Potter"
-      @user.valid?.should be_true
-    end
-  end
-
   describe "#gender" do
     it "automatically normalizes values" do
       @user.gender = "Male"
