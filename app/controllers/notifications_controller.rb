@@ -5,8 +5,13 @@ class NotificationsController < SymposiumBaseController
       authorize_action_for @user
     end
     @notifications = @user.notifications
-    @target
     respond_with @notifications
     return
+  end
+
+  def destroy
+  end
+
+  def update
   end
 end

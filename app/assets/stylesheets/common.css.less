@@ -100,18 +100,44 @@ footer {
 .que-super-wrapper {
     padding: 20px;
 }
+.que-title {
+    font-weight: 400;
+    a {
+        font-size: 20px;
+    }
+}
 .que-wrapper {
-    border-bottom: 1px solid #555555;
     margin-bottom: 10px;
     min-height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.que-ans-info {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .que-tags {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    margin-top: 10px;
+    strong {
+        font-size: 20px;
+        margin-right: 20px;
+    }
     li {
         display: inline;
         margin-right: 10px;
+        padding: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 3px;
+        a {
+            color: white;
+            font-size: 15px;
+        }
     }
 }
 .que-response-meta em{
@@ -159,7 +185,21 @@ footer {
         background: white;
     }
     .member-name {
-        font-size: 19px;
+        font-size: 20px;
+        display: block;
+        .name-inner {
+            padding-bottom: 10px;
+            margin-right: 20px;
+            text-transform: capitalize;
+        }
+        span {
+            padding: 5px;
+            margin: 5px;
+            border-radius: 4px;
+            font-size: 15px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
         a {
             display: block;
             padding-top: 10px;
@@ -195,6 +235,23 @@ footer {
 .opinion-wrapper {
     width: 100px;
     float: left;
+    .upvote-wrapper, .downvote-wrapper {
+        margin: 5px;
+        margin-right: 10px;
+        border-radius: 4px;
+        padding: 5px;
+        text-align: center;
+        background-color: #3A87AD;
+        span { padding: 5px; }
+        form {
+            display: inline;
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            color: white;
+        }
+    }
     .btn span{
         margin-left: 5px;
     }

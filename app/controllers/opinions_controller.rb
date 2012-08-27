@@ -56,7 +56,6 @@ class OpinionsController < ApplicationController
     @opinion.target_type = params[:target_type]
     @opinion.creator = current_user
     @opinion.optype = params[:optype]
-    @opinion.score_change = 0
   end
 
   def update

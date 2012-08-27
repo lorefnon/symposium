@@ -1,0 +1,13 @@
+.row
+  .span4.subscription-chooser
+    ul
+      - ["Question", "Answer", "User"].each do |subscribable|
+        - s = subscribable.downcase.pluralize
+        - cname = if @target_type == subscribable then "active" else ""
+        li class="#{cname}"
+          a href="/members/#{current_user.id}/subscribed/#{s}"
+            = "Subscribed #{s.capitalize}"
+  .span8.subscription-list
+    ul
+      - @subscriptions.each do |subs|
+        - if @target_type == "Question"

@@ -1,12 +1,15 @@
 ul.user-list
-  #user_search_form
-    h2 Search for Symposium members by :
-    form action="/community" method="get"
-      label for="user_name" User Name
-      input type="text" name="user_name"
-      label for="priv_tags" Tag priviledges
-      input type="text" name="priv_tags"
-      input type="Submit"
+  - if @hline
+    h2= @hline
+  - unless @search_disabled
+    #user_search_form
+      h2 Search for Symposium members by :
+      form action="/community" method="get"
+        label for="user_name" User Name
+        input type="text" name="user_name"
+        label for="priv_tags" Tag priviledges
+        input type="text" name="priv_tags"
+        input type="Submit"
   - if @users.length == 0
     p.empty-res-set
       | No Users were found

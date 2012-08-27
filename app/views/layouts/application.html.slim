@@ -41,8 +41,10 @@ html lang="en"
             .btn-group#aux_btns
               a.btn.btn-inverse href="/members/#{current_user.id}/notifications"
                 | Notifications : 
-                span#notif_count.badge.badge-success= current_user.notifications.unread.length
-              a.btn.btn-inverse href="#" Dashboard
+                span#notif_count.badge.badge-success
+                  = current_user.notifications.unread.length
+              a.btn.btn-inverse href="/members/#{current_user.id}"
+                = current_user.user_name
               a.btn.btn-inverse href="/users/sign_out" Log Out
           ul
             li

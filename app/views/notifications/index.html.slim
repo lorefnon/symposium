@@ -4,7 +4,10 @@ ul#notif_list
       - subject = n.activity.subject
       - target = if subject.instance_of? Opinion then subject.target else subject end
       span.member-name
-        a href="/members/#{n.activity.initiator.id}" = n.activity.initiator.user_name
-      span = "#{n.activity.description} a"
+        a href="/members/#{subject.creator.id}"
+          = subject.creator.user_name
+      spans
+        = "#{n.activity.description} a"
       span.target-ref
-        a href=" #{url_for(target)} " = target.class.name
+        a href=" #{url_for(target)} "
+          = target.class.name

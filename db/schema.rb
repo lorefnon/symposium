@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120817022431) do
+ActiveRecord::Schema.define(:version => 20120824172303) do
 
   create_table "activities", :force => true do |t|
     t.integer  "subject_id"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20120817022431) do
     t.string   "description"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.text     "metadata"
   end
 
   create_table "answers", :force => true do |t|
@@ -58,13 +59,12 @@ ActiveRecord::Schema.define(:version => 20120817022431) do
   end
 
   create_table "opinions", :force => true do |t|
-    t.string   "optype",       :null => false
-    t.integer  "creator_id",   :null => false
-    t.integer  "score_change", :null => false
-    t.integer  "target_id",    :null => false
-    t.string   "target_type",  :null => false
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.string   "optype",      :null => false
+    t.integer  "creator_id",  :null => false
+    t.integer  "target_id",   :null => false
+    t.string   "target_type", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "questions", :force => true do |t|

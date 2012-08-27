@@ -7,16 +7,7 @@
       | to help individuals ask and share solutions to problems
       | they encounter during their everyday life.
   #main_tbar
-    #search_wrapper
-      form action="/questions.html" method="get"
-        #search_info Search for Questions :
-        #search_btn
-          input.btn.btn-primary type="submit" value="Search"
-        #search_box
-          #search_left
-          #search_inner
-            input type="text" name="tags"
-          #search_right
+    = render :partial => "/application/search", :locals => {:url => "/questions.html"}
     #aux_btns
       == login_reqd_btn "Ask A question", "/questions/new", "btn-inverse", "icon-plus-sign"
       == login_reqd_btn "Invite Friends", "#", "btn-inverse", "icon-circle-arrow-right"
@@ -30,23 +21,5 @@
   ul.que-list
     - @questions.each do |q|
       li.que-list-item
-        = creator_box q, "ask"
-        = opinion_box q
-        .opinion-target-wrapper
-          a.que-link href="/questions/#{q.id}"
-            strong.que-title= q.title
-          p.que-descr= q.description
-          .que-meta-wrapper
-            p.que-response-meta
-              em
-                - if q.answers.length > 0
-                  | #{q.answers.length} Answers so far.
-                - else
-                  | No answers yet.
-            - if q.tags.length > 0
-              ul.que-tags
-                strong Tags :
-                - q.tags.each do |tag|
-                  li.badge
-                    = link_to tag.name, :controller => "questions", :action => "index", :tags => tag.name
+        = render :partial => "questions/que_entry", :locals => {:que => q}
   = will_paginate @questions

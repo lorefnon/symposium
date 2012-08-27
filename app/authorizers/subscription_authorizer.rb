@@ -1,6 +1,6 @@
 class SubscriptionAuthorizer < ApplicationAuthorizer
   def self.default(adjective, user)
-    user.is_active
+    user.id == resource.id
   end
   def deletable_by? (user)
     user.id == resource.subscriber.id or user.role == "admin"

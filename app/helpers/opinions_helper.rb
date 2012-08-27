@@ -6,8 +6,8 @@ module OpinionsHelper
 
     locals = {
       :target => target,
-      :upvote_count => Opinion.upvote.for(target).length,
-      :downvote_count => Opinion.downvote.for(target).length,
+      :upvote_count => target.upvotes.length,
+      :downvote_count => target.downvotes.length,
       :upvote_title => "Upvote this answer",
       :downvote_title => "Downvote this answer",
       :upvote_class => "",
