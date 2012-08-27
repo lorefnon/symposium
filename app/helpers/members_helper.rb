@@ -16,4 +16,12 @@ module MembersHelper
     }
     render :partial => "members/creator_box", :locals => locals
   end
+
+  def member_box user
+    locals = {
+      :user => user,
+      :img_url => grav_img(user, 50)
+    }
+    render :partial => "members/member_box", :locals => locals
+  end
 end
