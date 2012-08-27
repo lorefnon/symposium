@@ -24,9 +24,90 @@ describe Question do
 
   describe "blueprint" do
     it "passes all validations" do
-      print @que.to_json
       @que.valid?.should be_true
-      print @que.creator.to_json
+    end
+  end
+
+  describe "#update" do
+    it "notifies subscribers about this operation" do
+      u = User.make!
+      @que.subscribers << u
+      @que.title = "some other title"
+      @que.save
+      activity = @que.activities.where("description = ?", :updated).first
+      activity.should_not be_nil
+      notif = activity.notifications
+        .includes(:user)
+        .where("users.id = ?", u.id)
+        .first
+      notif.should_not be_nil
+    end
+
+    it "notifies tag subscribers about this operation" do
+      t = Tag.make!
+      u = User.make!
+      t.subscribers << u
+      q = @que
+      q.tags << t
+      q.title = "some other question"
+      q.save
+      activity = q.activities.where("description = ?", :updated).first
+      activity.should_not be_nil
+      notif = activity.notifications
+        .includes(:user)
+        .where("users.id = ?", u.id)
+        .first
+      notif.should_not be_nil
+
+    end
+  end
+
+  describe "#delete" do
+    it "notifies subscribers about this operation" do
+      u = User.make!
+      @que.subscribers << u
+      @que.destroy
+      activity = @que.activities.where("description = ?", :destroyed).first
+      activity.should_not be_nil
+      notif = activity.notifications
+        .includes(:user)
+        .where("users.id = ?", u.id)
+        .first
+      notif.should_not be_nil
+    end
+
+    it "notifies tag subscribers about this operation" do
+      t = Tag.make!
+      u = User.make!
+      t.subscribers << u
+      q = @que
+      q.tags << t
+      q.destroy
+      activity = q.activities.where("description = ?", :destroyed).first
+      activity.should_not be_nil
+      notif = activity.notifications
+        .includes(:user)
+        .where("users.id = ?", u.id)
+        .first
+      notif.should_not be_nil
+    end
+  end
+
+  describe "#create" do
+    it "notifies tag subscribers about this operation" do
+      t = Tag.make!
+      u = User.make!
+      t.subscribers << u
+      q = Question.make
+      q.tags << t
+      q.save
+      activity = q.activities.where("description = ?", :created).first
+      activity.should_not be_nil
+      notif = activity.notifications
+        .includes(:user)
+        .where("users.id = ?", u.id)
+        .first
+      notif.should_not be_nil
     end
   end
 

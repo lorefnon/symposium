@@ -12,8 +12,10 @@
 #
 
 class Opinion < ActiveRecord::Base
-  attr_accessible :optype, :target_id, :target_type
+  attr_accessible :optype, :target_id, :target_type, :creator, :target
   before_save :pre_save
+  after_save :post_save
+  validate :disallow_self_vote
   belongs_to :creator, :class_name => "User"
   belongs_to :target, :polymorphic => true
 
@@ -53,6 +55,7 @@ class Opinion < ActiveRecord::Base
 
   def pre_save
     return true unless optype_changed?
+    return false unless valid?
     target.upvote_count -= 1 if removes_upvote?
     target.downvote_count -= 1 if removes_downvote?
     target.upvote_count += 1 if adds_upvote?
@@ -85,7 +88,6 @@ class Opinion < ActiveRecord::Base
 
     @activity = Activity.new
     @activity.description = optype + "d"
-    debugger
     @activity.save
 
     [target.creator, creator].each do |u|
@@ -109,5 +111,15 @@ class Opinion < ActiveRecord::Base
   def post_save
     @activity.subject = self
     @activity.save
+  end
+
+  def disallow_self_vote
+    if creator.id == target.creator.id
+      errors.add(:target, "You can not vote for yourself")
+    end
+  end
+
+  def get_summary
+    self
   end
 end
