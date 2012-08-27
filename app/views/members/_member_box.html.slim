@@ -1,0 +1,7 @@
+.member-info
+  img src="#{img_url}"
+  .member-name
+    a href="/members/#{user.id}"
+      .name-inner
+        = user.user_name
+      span.member-rep.badge.badge-inverse= "Reputation : #{user.reputation}"

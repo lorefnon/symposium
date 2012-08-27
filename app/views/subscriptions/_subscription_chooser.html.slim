@@ -1,0 +1,7 @@
+ul
+  - ["Question", "Answer", "User"].each do |subscribable|
+    - s = subscribable.downcase.pluralize
+    - cname = if @target_type == subscribable then "active" else "" end
+    li class="#{cname}"
+      a href="/members/#{current_user.id}/subscribed/#{s}"
+        = "Subscribed #{s.capitalize}"

@@ -1,17 +1,4 @@
-= creator_box que, "ask"
-= opinion_box que
-.que-wrapper
-  h1.que-title
-    = que.title
-  .que-descr
-    = que.description
-  ul.que-tags
-    strong Tags :
-    - que.tags.each do |tag|
-      li.badge
-        = link_to tag.name, :controller => "questions", :action => "index", :tags => tag.name
-
-  .que-meta-wrapper
+= render :partial => "questions/que_entry", :locals => {:que => que}
 .operations-wrapper
   a.btn.btn-primary href="/questions/#{@inst.id}/answers/new" Add an answer
   = operations_box que

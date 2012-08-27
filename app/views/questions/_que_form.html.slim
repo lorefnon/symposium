@@ -13,7 +13,7 @@
       .control-group
         = label_tag "suggested_tags", "Suggested Tags", :class => "control-label"
         .controls
-          = text_field_tag :suggested_tags
+          = text_field_tag :suggested_tags, tag_str
           p.help-text
             | Separate by commas eg. NodeJS, PhantomJS etc.
       .control-group

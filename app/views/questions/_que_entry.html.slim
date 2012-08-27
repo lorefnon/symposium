@@ -1,0 +1,21 @@
+= creator_box que, "ask"
+= opinion_box que
+.que-wrapper
+  h1.que-title
+    a href="/questions/#{que.id}"
+      = que.title
+  .que-descr
+    = que.description
+  - if que.tags.length > 0
+    ul.que-tags
+      strong Tags :
+      - que.tags.each do |tag|
+        li.badge
+          = link_to tag.name, :controller => "questions", :action => "index", :tags => tag.name
+
+  .que-ans-info
+    em
+      - if que.answers.length > 0
+        | #{que.answers.length} Answers so far.
+      - else
+        | No answers yet.

@@ -1,17 +1,18 @@
 .opinion-wrapper
-  .like-wrapper
+  .upvote-wrapper
     = form_tag "/#{target.class}/#{target.id}/opinion/upvote", :method => "#{method}" do
-      span.badge.badge-info
-        span.badge.badge-inverse
+      span
+        a href="/#{target.class}/#{target.id}/upvoters"
           = upvote_count
-        | Upvotes
+          |  Upvotes
       br
       = submit_tag "Upvote"
+  .downvote-wrapper
     = form_tag "/#{target.class}/#{target.id}/opinion/downvote", :method => "#{method}" do
-      span.badge.badge-info
-        span.badge.badge-inverse
+      span
+        a href="/#{target.class}/#{target.id}/downvoters"
           = downvote_count
-        | Downvotes
+          |  Downvotes
       br
       = submit_tag "Downvote"
 
