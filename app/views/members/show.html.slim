@@ -1,55 +1,75 @@
-#member_profile_wrapper
-  .member-intro
-    h2 About
-    .member-img-wrapper
-      img src="#{grav_img(@inst, 60)}"
-    h1.member-name
-      a href="/members/#{@inst.id}.html"
-        = "#{@inst.user_name} (#{@inst.first_name} #{@inst.mid_name} #{@inst.last_name}) "
-    .member-rep
-      .badge = @inst.reputation
-    .member-tdur
-      |has been a member of Symposium since :
-      span.time-dur
-        = @inst.created_at.strftime("%B %d, %Y")
-    .priv-tags
-      ul
-        - @inst.tag_priviledges.each do |tp|
-          li
-            .tag.badge.badge-inverse= tp.tag.name
+#member_profile_wrapper.container-fluid
+  .row-fluid
+    .span4.member-box.col-vbox
+      .member-intro
+        h2 About
+        = member_box @inst
+        = subscription_form @inst
+        .member-tdur
+          |has been a member of Symposium since :
+          span.time-dur
+            = @inst.created_at.strftime("%B %d, %Y")
+        .priv-tags
+          ul
+            - @inst.tag_priviledges.each do |tp|
+              li
+                .tag.badge.badge-inverse= tp.tag.name
 
-  .member-details
-    - if not current_user.nil? and current_user.can_update? @inst
-      .profile
-        h2 Profile
-        #edit_options
-          = link_to "Edit Your profile",{:controller => :members, :action => :edit}
+      .member-details
+        - if not current_user.nil? and current_user.can_update? @inst
+          .profile
+            h2 Profile
+            #edit_options
+              = link_to "Edit Your profile",{:controller => :members, :action => :edit}
 
-        ul.profile-info-list
-          - [:email, :address, :city, :zip, :country, :gender].each do |item|
-            li.profile-info-item
-              h3= item.to_s
-              p = @inst.send(item)
+            ul.profile-info-list
+              - [:email, :address, :city, :zip, :country, :gender].each do |item|
+                li.profile-info-item
+                  h3= item.to_s
+                  p = @inst.send(item)
+      .subscriptions
+        /- if not current_user.nil? and current_user.id == @inst.id
+        a href="/members/#{@inst.id}/subscriptions"
+          | Manage Subscriptions
 
-    .asked-que-box
+    .asked-que-box.span4.col-vbox
       h2 Asked Questions
       ul.asked-que-list
          - @inst.questions_asked.each do |que|
            li.asked-que-item
+             span.badge.que-upvotes
+               = que.upvotes.length
+               |  &uarr;
+             span.badge.que-downvotes
+               = que.downvotes.length
+               |  &darr;
+
              a href="/questions/#{que.id}.html" = que.title
-             .badge.que-upvotes = que.upvotes.length
-             .badge.que-downvotes = que.downvotes.length
-    .repl-ans-box
+
+    .repl-ans-box.span4.col-vbox
       h2 Contributed Answers
       ul.repl-ans-list
         - @inst.answers_provided.each do |ans|
           li.ans-item
-            a href="/answers/#{ans.id}.html"
-              = ans.question.title
-            .badge.que-upvotes = ans.question.upvotes.length
-            .badge.que-downvotes = ans.question.downvotes.length
-            == "#{strip_tags(ans.body)[0..100]} ..."
-            .badge.ans-upvotes = ans.upvotes.length
-            .badge.ans-downvotes = ans.downvotes.length
+            .ans-que-wrapper
+              span.badge.que-upvotes
+                = ans.question.upvotes.length
+                |  &uarr;
+              span.badge.que-downvotes
+                = ans.question.downvotes.length
+                |  &darr;
+
+              a href="/answers/#{ans.id}.html"
+                = ans.question.title
+            .ans-ans-wrapper
+              span.badge.ans-upvotes
+                = ans.upvotes.length
+                | &uarr;
+              span.badge.ans-downvotes
+                = ans.downvotes.length
+                | &darr;
+
+              a.ans-short href="#"
+                == "#{strip_tags(ans.body)[0...140]} ..."
     .rep-graph
       h2 Reputation Graph
