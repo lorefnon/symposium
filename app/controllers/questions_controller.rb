@@ -3,6 +3,13 @@ class QuestionsController < SymposiumBaseController
   authorize_actions_for Question, :except => [:index, :show]
   respond_to :json, :html
 
+  def edit
+    authorize_action_for @inst
+    @tag_str = @inst.tags.reduce("") do |str, tag|
+      str + " , " + tag.name
+    end
+  end
+
   def setup_tags
     if params.has_key? :suggested_tags
       tags = params[:suggested_tags].split(",").collect{|x| x.strip}
@@ -12,7 +19,6 @@ class QuestionsController < SymposiumBaseController
           if current_user.can_create? Tag
             @inst.tags << Tag.create({:name => tag_name, :creator => current_user})
           else
-            print "================> [Creation failed for : #{tag_name}]"
             @details ||= []
             @details.push "Creation of tag #{tag_name} was not permitted."
           end
