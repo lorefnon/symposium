@@ -30,6 +30,8 @@ class Tag < ActiveRecord::Base
   :class_name => "User",
   :source => :tag
 
+  before_save :normalize_values
+
   is_subscribable
 
   validates :name, :presence => true
@@ -44,4 +46,7 @@ class Tag < ActiveRecord::Base
     super(options)
   end
 
+  def normalize_values
+    self.name = self.name.downcase
+  end
 end
