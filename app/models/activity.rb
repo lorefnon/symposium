@@ -17,7 +17,7 @@
 # Note: current message generator assumes desc to be a verb in
 # past tense eg. created, deleted etc.
 class Activity < ActiveRecord::Base
-  attr_accessible :subject, :description, :subject, :initiator
+  attr_accessible :subject, :description, :concerned_question, :initiator
   has_many :reputation_changes
 
   # Activities have many notifications which are directed
@@ -31,18 +31,6 @@ class Activity < ActiveRecord::Base
   has_many :notifications, :dependent => :destroy
   has_many :users, :through => :notifications
   belongs_to :subject, :polymorphic => true
-
-  def metadata
-    mdata = read_attribute(:metadata)
-    if mdata.nil? then nil else ActiveSupport::JSON.decode(mdata) end
-  end
-
-  def metadata=(data)
-    write_attribute :metadata, ActiveSupport::JSON.encode(data)
-  end
-
-  def subject=(subject)
-    self.metadata = subject.get_summary
-    super(subject)
-  end
+  belongs_to :concerned_question, :class_name => "Question"
+  belongs_to :initiator, :class_name => "User"
 end

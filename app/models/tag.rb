@@ -32,10 +32,14 @@ class Tag < ActiveRecord::Base
 
   before_save :normalize_values
 
-  is_subscribable
-
   validates :name, :presence => true
   validates :creator_id, :presence => true
+
+  has_many :subscriptions,
+  :class_name => "TagSubscription",
+  :foreign_key => "target_id"
+
+  has_many :subscribers, :through => :subscriptions
 
   def as_json(options)
     if options.nil? then options = {} end

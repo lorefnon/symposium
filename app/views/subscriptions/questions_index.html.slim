@@ -2,7 +2,7 @@
   .row
     .span4.subscription-chooser
       h2 Your subscriptions
-      = subscription_chooser @target_type
+      = subscription_chooser @type
     .span8.subscription-list
       ul
         - @subscriptions.each do |subs|

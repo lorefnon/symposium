@@ -13,7 +13,13 @@
 class Subscription < ActiveRecord::Base
   include Authority::Abilities
   self.authorizer_name = "SubscriptionAuthorizer"
-  attr_accessible :target, :subscriber, :target_id, :target_type
+  attr_accessible :target, :subscriber
   belongs_to :subscriber, :class_name => "User"
   belongs_to :target, :polymorphic => true
+
+  after_create :notify_about_subscription
+
+  def notify activity
+    Notification.create :user => self.target.creator, :activity => activity
+  end
 end

@@ -34,18 +34,36 @@ class Comment < ActiveRecord::Base
 
   has_many :activities, :as => :subject
 
-  extend Notifier
+  after_create :notify_about_creation
+  after_update :notify_about_update
+  after_destroy :notify_about_destruction
 
-  notify_about :create
-  notify_about :update
-  notify_about :destroy, :past => :destroyed
-
-  def get_summary
-    return {
-      :target_id => self.target_id,
-      :target_type => self.target_type,
-      :body => self.body[0...140],
-      :creator_id => self.creator.id
-    }
+  def concerned_question
+    if self.target.instance_of? Question
+      self.target
+    else self.target.question
+    end
   end
+
+  def notify_about_creation
+    notify Activity.create :concerned_question => concerned_question,
+    :description => "added a comment for ",
+    :initiator => self.creator,
+    :subject => self
+  end
+
+  def notify_about_update
+    notify Activity.create :concerned_question => concerned_question,
+    :description => "updated his comment for ",
+    :initiator => self.creator,
+    :subject => self
+  end
+
+  def notify_about_destruction
+    notify Activity.create :concerned_question => concerned_question,
+    :description => "removed his comment for ",
+    :initiator => self.creator,
+    :subject => self
+  end
+
 end

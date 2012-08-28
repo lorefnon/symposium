@@ -14,7 +14,6 @@
 class Opinion < ActiveRecord::Base
   attr_accessible :optype, :target_id, :target_type, :creator, :target
   before_save :pre_save
-  after_save :post_save
   validate :disallow_self_vote
   belongs_to :creator, :class_name => "User"
   belongs_to :target, :polymorphic => true
@@ -88,6 +87,14 @@ class Opinion < ActiveRecord::Base
 
     @activity = Activity.new
     @activity.description = optype + "d"
+    @activity.initiator = self.creator
+    @activity.subject = self.target
+    if @activity.subject.instance_of? Question
+      @activity.concerned_question = @activity.subject
+    else
+      @activity.concerned_question = @activity.subject.question
+      @activity.description += " an answer for "
+    end
     @activity.save
 
     [target.creator, creator].each do |u|
@@ -106,11 +113,6 @@ class Opinion < ActiveRecord::Base
       end
     end
     true
-  end
-
-  def post_save
-    @activity.subject = self
-    @activity.save
   end
 
   def disallow_self_vote

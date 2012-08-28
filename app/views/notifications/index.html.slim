@@ -1,13 +1,12 @@
 ul#notif_list
   - @notifications.each do |n|
-    li
-      - subject = n.activity.subject
-      - target = if subject.instance_of? Opinion then subject.target else subject end
+    - read_class = if n.is_read then "read" else "unread" end
+    - a = n.activity
+    - s = a.subject
+    li class="notification-entry #{read_class}"
       span.member-name
-        a href="/members/#{subject.creator.id}"
-          = subject.creator.user_name
-      spans
-        = "#{n.activity.description} a"
-      span.target-ref
-        a href=" #{url_for(target)} "
-          = target.class.name
+        a href="/members/#{a.initiator.id}"
+          = a.initiator.user_name
+      == " #{a.description} "
+      - unless a.concerned_question.nil?
+        = link_to a.concerned_question.title, a.concerned_question

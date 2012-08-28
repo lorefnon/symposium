@@ -11,15 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120824172303) do
+ActiveRecord::Schema.define(:version => 20120817022431) do
 
   create_table "activities", :force => true do |t|
+    t.integer  "initiator_id"
     t.integer  "subject_id"
+    t.integer  "concerned_question_id"
     t.string   "subject_type"
     t.string   "description"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.text     "metadata"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
   end
 
   create_table "answers", :force => true do |t|
@@ -95,7 +96,7 @@ ActiveRecord::Schema.define(:version => 20120824172303) do
 
   create_table "subscriptions", :force => true do |t|
     t.integer  "target_id"
-    t.string   "target_type"
+    t.string   "type"
     t.integer  "subscriber_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false

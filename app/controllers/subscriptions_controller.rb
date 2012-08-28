@@ -4,11 +4,11 @@ class SubscriptionsController < SymposiumBaseController
 
   def index
     params[:target_type] ||= "questions"
-    @target_type = params[:target_type].singularize.capitalize
+    @type = params[:target_type].singularize.capitalize + "Subscription"
 
     @subscriptions = Subscription
-      .where("subscriber_id = ? and target_type = ?",
-             params[:member_id], @target_type
+      .where("subscriber_id = ? and type = ?",
+             params[:member_id], @type
              )
       .all
 

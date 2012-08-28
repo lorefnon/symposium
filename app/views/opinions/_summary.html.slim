@@ -1,0 +1,8 @@
+span.descr= activity.description
+span= "the #{activity.subject.target_type}"
+a href="/#{
+
+
+activity.subject.target_type.downcase.pluralize}/#{activity.subject.target_id}"
+  - if activity.subject.target_type == "Question"
+

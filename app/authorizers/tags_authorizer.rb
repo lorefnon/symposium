@@ -3,6 +3,7 @@ class TagsAuthorizer < ApplicationAuthorizer
     user.is_active
   end
   def self.creatable_by? (user)
-    user.reputation > 10
+    true
+    #user.reputation > 10
   end
 end

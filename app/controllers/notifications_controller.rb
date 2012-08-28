@@ -6,7 +6,6 @@ class NotificationsController < SymposiumBaseController
     end
     @notifications = @user.notifications
     respond_with @notifications
-    return
   end
 
   def destroy

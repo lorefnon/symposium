@@ -30,8 +30,6 @@
 #  updated_at             :datetime         not null
 #
 
-require "subscribable"
-
 class User < ActiveRecord::Base
   include Authority::UserAbilities
   include Authority::Abilities
@@ -127,7 +125,11 @@ class User < ActiveRecord::Base
 
   has_many :notifications
 
-  is_subscribable()
+  has_many :subscriptions,
+  :class_name => "UserSubscription",
+  :foreign_key => "target_id"
+
+  has_many :subscribers, :through => :subscriptions
 
   scope :active, where(:is_active => true)
   scope :admin, where(:role => "admin")

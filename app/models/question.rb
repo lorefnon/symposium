@@ -17,7 +17,6 @@
 
 require "opinable"
 require "commentable"
-require "subscribable"
 require "notifier"
 
 class Question < ActiveRecord::Base
@@ -44,7 +43,12 @@ class Question < ActiveRecord::Base
 
   is_opinable
   is_commentable
-  is_subscribable
+
+  has_many :subscriptions,
+  :class_name => "QuestionSubscription",
+  :foreign_key => "target_id"
+
+  has_many :subscribers, :through => :subscriptions
 
   scope :open, where(:is_closed => false)
   scope :closed, where(:is_closed => true)
@@ -89,8 +93,6 @@ class Question < ActiveRecord::Base
     aux_errors
   end
 
-  extend Notifier
-
   # given an activity notify to all the subscribers.
   def notify activity
 
@@ -105,16 +107,32 @@ class Question < ActiveRecord::Base
     end
   end
 
-  notify_about :create
-  notify_about :update
-  notify_about :destroy, :past => :destroyed, :notif_time => :before
+  after_create :notify_about_creation, :subscribe_to_question
+  after_update :notify_about_update
+  after_destroy :notify_about_destruction
 
-  def get_summary
-    return {
-      :title => self.title[0...100],
-      :description => self.description[0...140],
-      :creator_name => self.creator.user_name,
-      :creator_id => self.creator.id
-    }
+  def notify_about_creation
+    notify Activity.create :concerned_question => self,
+    :description => "asked",
+    :initiator => self.creator,
+    :subject => self
+  end
+
+  def notify_about_update
+    notify Activity.create :concerned_question => self,
+    :initiator => self.creator,
+    :description => "updated",
+    :subject => self
+  end
+
+  def notify_about_destruction
+    notify Activity.create :concerned_question => self,
+    :initiator => self.creator,
+    :description => "removed",
+    :subject => self
+  end
+
+  def subscribe_to_question
+    subscribers << creator
   end
 end
