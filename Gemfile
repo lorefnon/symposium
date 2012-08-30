@@ -45,6 +45,7 @@ gem 'default_value_for'
 gem 'numbers_and_words'
 gem 'will_paginate', '~> 3.0'
 gem 'authority'
+gem 'recaptcha', :require => 'recaptcha/rails'
 
 group :test, :development do
   gem 'rspec-rails', '~> 2.0'
