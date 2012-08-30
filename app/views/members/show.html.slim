@@ -1,10 +1,19 @@
 #member_profile_wrapper.container-fluid
+  - if not current_user.nil? and current_user.id == @inst.id
+    .navbar
+      .navbar-inner
+        ul.nav
+          li.active
+            a href="#" My Profile
+          li
+            a href="#" Dashboard
   .row-fluid
     .span4.member-box.col-vbox
       .member-intro
         h2 About
         = member_box @inst
-        = subscription_form @inst
+        - unless current_user.nil?
+          = subscription_form @inst
         .member-tdur
           |has been a member of Symposium since :
           span.time-dur
