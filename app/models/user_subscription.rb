@@ -7,6 +7,7 @@ class UserSubscription < Subscription
 
   def notify_about_subscription
     notify Activity.create :description => "followed you.",
+    :initiator => self.subscriber,
     :subject => self.target
   end
 end

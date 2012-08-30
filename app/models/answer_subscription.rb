@@ -3,6 +3,7 @@ class AnswerSubscription < Subscription
 
   def notify_about_subscription
     notify Activity.create :description => "followed your answer for",
+    :initiator => self.subscriber,
     :concerned_question => self.target.question,
     :subject => self.target
   end
