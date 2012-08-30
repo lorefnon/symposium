@@ -1,0 +1,8 @@
+- if not current_user.nil? and current_user.id == @inst.id
+  .navbar
+    .navbar-inner
+      ul.nav
+        li#profile.active
+          a href="/members/#{current_user.id}" My Profile
+        li#dash
+          a href="/members/#{current_user.id}/dashboard" Dashboard
