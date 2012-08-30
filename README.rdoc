@@ -7,3 +7,9 @@ commercial and personal projects.
 
 Symposium is under heavy development and should be considered pre-alpha
 software. If you use it, use it at your own risk.
+
+For testing:
+- Please change the proxy configuration at : config/initializers/recaptcha.rb
+- Capabara-webkit requires qt-webkit to be installed.
+  (only required for those acceptance tests that involve javascript).
+  Installation instructions available here : https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit
