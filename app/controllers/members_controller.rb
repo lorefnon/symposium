@@ -1,4 +1,8 @@
 class MembersController < SymposiumBaseController
+
+  before_filter :ensure_resource_exists,
+  :except => [:new, :create, :index, :dashboard]
+
   def model_class; User end
 
   def index_opinionators
@@ -50,8 +54,9 @@ class MembersController < SymposiumBaseController
   end
 
   def dashboard
-    ensure_resource_exists
-    
+    protect_against_missing :member_id do
+      @inst = User.find params[:member_id]
+    end
   end
 
   private
