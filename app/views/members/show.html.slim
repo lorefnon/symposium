@@ -33,9 +33,11 @@
 
             ul.profile-info-list
               - [:email, :address, :city, :zip, :country, :gender].each do |item|
-                li.profile-info-item
-                  h3= item.to_s
-                  p = @inst.send(item)
+                - val = @inst.send(item)
+                - unless val.nil? or val.empty?
+                  li.profile-info-item
+                    h3= item.to_s
+                    p = @inst.send(item)
       .subscriptions
         /- if not current_user.nil? and current_user.id == @inst.id
         a href="/members/#{@inst.id}/subscriptions"
