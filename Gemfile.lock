@@ -146,6 +146,7 @@ GEM
     rake (0.9.2.2)
     rdoc (3.12)
       json (~> 1.4)
+    recaptcha (0.3.4)
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
       rspec-expectations (~> 2.11.0)
@@ -227,6 +228,7 @@ DEPENDENCIES
   mysql2
   numbers_and_words
   rails (= 3.2.7)
+  recaptcha
   rspec-rails (~> 2.0)
   slim-rails
   spork-rails
