@@ -1,12 +1,5 @@
 #member_profile_wrapper.container-fluid
-  - if not current_user.nil? and current_user.id == @inst.id
-    .navbar
-      .navbar-inner
-        ul.nav
-          li.active
-            a href="#" My Profile
-          li
-            a href="#" Dashboard
+  = render :partial => "members/nav", :active => "profile"
   .row-fluid
     .span4.member-box.col-vbox
       .member-intro
