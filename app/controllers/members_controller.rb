@@ -49,6 +49,11 @@ class MembersController < SymposiumBaseController
     @success =  @inst.destroy
   end
 
+  def dashboard
+    ensure_resource_exists
+    
+  end
+
   private
 
   def gen_deletion_success_response

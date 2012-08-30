@@ -81,6 +81,7 @@ Symposium::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
 
   match '/community' => 'members#index'
+  match '/dashboard' => 'members#dashboard'
 
   match '/:target_type/:target_id/opinion/:optype' => 'opinions#create',
   :via => :post
