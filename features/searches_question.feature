@@ -1,4 +1,4 @@
-Feature Tag based question search
+Feature: Tag based question search
 
   Scenario: user explores question list
     When I visit the home page
