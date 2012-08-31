@@ -100,7 +100,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :moderated_tags,
   :class_name => "Tag",
   :join_table => :moderators_tags,
-  :association_foreign_key => :moderator_id
+  :foreign_key => :moderator_id
 
   has_many :questions_under_moderation,
   :class_name => "Question",
