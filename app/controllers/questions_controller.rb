@@ -50,7 +50,7 @@ class QuestionsController < SymposiumBaseController
     # @questions = Question
     @questions = Question.includes :tags
     if params.has_key? :tags
-      @tags = params[:tags].split(" ").map{|t| t.strip}
+      @tags = params[:tags].split(",").map{|t| t.strip}
       len = @tags.length
       @questions = @questions.where :tags => {:name => @tags}
     end
@@ -63,8 +63,8 @@ class QuestionsController < SymposiumBaseController
   end
 
   def accept_ans
-    protect_against_missing(:id) do
-      @inst.accepted_ans = Answer.find params[:id]
+    protect_against_missing(:answer_id) do
+      @inst.accepted_ans = Answer.find params[:answer_id]
       if @inst.save
         respond_to do |format|
           format.html {
