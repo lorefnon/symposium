@@ -39,6 +39,10 @@ When /^I click on the "(.*)" link$/ do |link_name|
   click_link link_name
 end
 
+When /^I click on the "(.*)" button$/ do |btn_name|
+  click_button btn_name
+end
+
 Then /^I should be directed to the login page$/ do
   page.should have_selector "form#new_user"
 end
