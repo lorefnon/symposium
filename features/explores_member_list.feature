@@ -11,11 +11,11 @@ Feature: Browsing of member list
   Scenario: user searches for an existing member by name
     Given There exists a user named "draco_malfoy"
     When I visit the community page
-    And I search for "draco_malfoy"
-    Then I should be presented with a link to his profile
+    And I search for user named "draco_malfoy"
+    Then I should be presented with a link to the profile of "draco_malfoy"
 
   Scenario: user searches for the name of a non existinng member
     Given there is no user with name "eliot_spencer"
     When I visit the community page
-    And I search for "eliot_spencer"
-    Then I should be prompted that no such user exists
+    And I search for user named "eliot_spencer"
+    Then I should be prompted with "No Users were found"
