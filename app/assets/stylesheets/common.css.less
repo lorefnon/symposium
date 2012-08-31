@@ -108,9 +108,12 @@ footer {
 }
 .que-wrapper {
     margin-bottom: 10px;
-    min-height: 100px;
+    min-height: 150px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+.que-wrapper.compact {
+    min-height: 60px;
 }
 .que-ans-info {
     margin-top: 10px;
@@ -233,9 +236,9 @@ footer {
 }
 
 .opinion-wrapper {
-    width: 100px;
+    width: 150px;
     float: left;
-    .upvote-wrapper, .downvote-wrapper {
+    .upvote-wrapper, .downvote-wrapper, .flag-wrapper {
         margin: 5px;
         margin-right: 10px;
         border-radius: 4px;
@@ -251,6 +254,12 @@ footer {
         a {
             color: white;
         }
+    }
+    .flag-wrapper {
+        background-color: #832A2A;
+    }
+    .upvote-wrapper {
+        background-color: #009155;
     }
     .btn span{
         margin-left: 5px;
