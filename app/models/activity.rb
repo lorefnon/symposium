@@ -18,7 +18,7 @@
 # past tense eg. created, deleted etc.
 class Activity < ActiveRecord::Base
   attr_accessible :subject, :description, :concerned_question, :initiator
-  has_many :reputation_changes
+  has_many :reputation_changes, :dependent => :destroy
 
   # Activities have many notifications which are directed
   # to multiple users. Unlike activities notifications are
