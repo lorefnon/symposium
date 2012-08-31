@@ -10,5 +10,6 @@ Feature: Tag based question search
 
   Scenario: user searches for questions based on tags
     Given a question "How many ages does a cat have?" has been tagged with "cat"
-    When I search for the tag "cat" from the questions index page
+    When I visit the questions index page
+    And I search for questions tagged "cat"
     Then the result set should include "How many ages does a cat have?"
