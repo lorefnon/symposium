@@ -1,0 +1,7 @@
+#tags_sidebar
+  - @tags.each do |tag|
+    .tag-wrapper data-tag-id="#{tag.id}"
+      h2= tag.name
+      p.tag-descr= tag.description
+      .tag-controls
+        a href="tags/#{tag.id}/edit" Edit
