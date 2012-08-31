@@ -1,20 +1,23 @@
 .opinion-wrapper
   .upvote-wrapper
-    = form_tag "/#{target.class}/#{target.id}/opinion/upvote", :method => "#{method}" do
+    = form_tag "/#{target.class}/#{target.id}/opinion/upvote", :method => "#{upvote_method}" do
       span
         a href="/#{target.class}/#{target.id}/upvoters"
           = upvote_count
           |  Upvotes
       br
-      = submit_tag "Upvote"
+      = submit_tag upvote_title
   .downvote-wrapper
-    = form_tag "/#{target.class}/#{target.id}/opinion/downvote", :method => "#{method}" do
+    = form_tag "/#{target.class}/#{target.id}/opinion/downvote", :method => "#{downvote_method}" do
       span
         a href="/#{target.class}/#{target.id}/downvoters"
           = downvote_count
           |  Downvotes
       br
-      = submit_tag "Downvote"
+      = submit_tag downvote_title
+  .flag-wrapper
+    = form_tag "/#{target.class}/#{target.id}/opinion/flag", :method => "#{flag_method}" do
+      = submit_tag flag_title
 
     / a href="/opine/upvote/#{target.class}/#{target.id}" class="#{upvote_class} btn upvote-btn"
     /   img src="/assets/like.png"
