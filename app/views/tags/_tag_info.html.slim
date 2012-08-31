@@ -1,0 +1,18 @@
+#main_tag_descr
+  h1= "Tag : #{tag.name}"
+  h2 Description
+  p= tag.description
+  h2 Moderators
+  ul#moderator_list
+    - if tag.moderators.length == 0
+      li.no-mod No moderators assigned
+    - else
+      - tag.moderators.each do |mod|
+        li.mod
+          a href="/members/#{mod.id}"= mod.user_name
+          = form_tag "/tags/#{tag.id}/moderators/#{mod.id}", :method => :delete do
+            = submit_tag "Remove"
+  .mod-ctrl
+    = form_tag "/tags/#{tag.id}/moderators", :method => :post do
+      = text_field_tag "moderator_name", "Enter user name for new moderator"
+      = submit_tag "Add"

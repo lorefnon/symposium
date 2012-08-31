@@ -1,0 +1,6 @@
+ul#moderated_tag_list.nav.nav-list
+  li.nav-header Moderated Items
+  - tags.each do |tag|
+    - tclass = if main_tag.id == tag.id then "active" else "" end
+    li class="#{tclass}"
+      = link_to tag.name, {:main_tag_id => tag.id}
