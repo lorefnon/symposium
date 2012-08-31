@@ -1,0 +1,14 @@
+#moderator_dashboard_wrapper.container-fluid
+  br
+  = render :partial => "members/nav"
+  .row-fluid
+    .span2
+      = render :partial => "/tags/tag_list", :locals => {:tags => @tags, :main_tag => @main_tag}
+    .span10#mod_wrapper
+      #mod_flag_que_wrapper
+        h2 Flagged Questions
+        ul
+          - @flagged_questions.each do |q|
+            = link_to q.title, q
+      #mod_flag_ans_wrapper
+        h2 Flagged Answers

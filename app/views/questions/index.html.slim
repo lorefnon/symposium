@@ -11,6 +11,8 @@
     #aux_btns
       == login_reqd_btn "Ask A question", "/questions/new", "btn-inverse", "icon-plus-sign"
       == login_reqd_btn "Invite Friends", "#", "btn-inverse", "icon-circle-arrow-right"
+/- unless @tags.nil? or @tags.empty?
+/  = render :partial => "/tags/sidebar", :locals => {:tags => @tags}
 #search_results
   - unless @tags.nil? or @tags.empty?
     h3.search-header
