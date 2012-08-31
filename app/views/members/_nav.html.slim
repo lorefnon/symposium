@@ -4,5 +4,9 @@
       ul.nav
         li#profile.active
           a href="/members/#{current_user.id}" My Profile
-        li#dash
-          a href="/members/#{current_user.id}/dashboard" Dashboard
+        - if current_user.role == "admin"
+          li#admin_dash
+            a href="/admin/#{current_user.id}/dashboard" Admin dashboard
+        - if current_user.role == "moderator"
+          li#moderator_dash
+            a href="/moderators/#{current_user.id}/dashboard" Moderator dasboard
