@@ -65,6 +65,7 @@ class OpinionsController < ApplicationController
     if @opinion.nil?
       redirect_to :action => :create
     else
+      set_params
       @res = @opinion.save
       @msg = if @res then "opinion successfully updated"
              else "opinion could not be updated"
@@ -89,5 +90,21 @@ class OpinionsController < ApplicationController
            else "Opinion could not be registered"
            end
     if res then gen_success else gen_failure end
+  end
+
+  def delete
+    return gen_failure unless get_target
+    o = Opinion.for(@target).by(current_user).first
+    if o.nil?
+      @msg = "Opinion not found"
+      return gen_failure
+    end
+    if o.destroy
+      @msg = "#{o.optype}  removed successfully."
+      return gen_success
+    else
+      @msg = "#{o.optype}  could not be removed successfully."
+      return gen_failure
+    end
   end
 end
