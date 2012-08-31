@@ -3,10 +3,11 @@ ul#notif_list
     - read_class = if n.is_read then "read" else "unread" end
     - a = n.activity
     - s = a.subject
-    li class="notification-entry #{read_class}"
-      span.member-name
-        a href="/members/#{a.initiator.id}"
-          = a.initiator.user_name
-      == " #{a.description} "
-      - unless a.concerned_question.nil?
-        = link_to a.concerned_question.title, a.concerned_question
+    - unless a.initiator.id == current_user.id
+      li class="notification-entry #{read_class}"
+        span.member-name
+          a href="/members/#{a.initiator.id}"
+            = a.initiator.user_name
+        == " #{a.description} "
+        - unless a.concerned_question.nil?
+          = link_to a.concerned_question.title, a.concerned_question
