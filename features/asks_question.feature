@@ -22,4 +22,4 @@ Feature: Facility for asking question
     Given I am logged in
     When I visit the new question page
     And submit the question
-    The I should be prompted to provide a valid question title
+    Then I should be prompted to provide a valid question title
