@@ -56,7 +56,11 @@ class SymposiumBaseController < ApplicationController
   end
 
   def ensure_resource_exists
-    declare_not_found unless retrieve_inst
+    unless retrieve_inst
+      declare_not_found
+      return false
+    end
+    true
   end
 
   public
@@ -154,7 +158,6 @@ class SymposiumBaseController < ApplicationController
       format.html {
         flash[:success] = msg
         flash[:aux_errors] += details
-        print "================> DETAILS :", details.to_json
         redirect_to :action => :show
       }
       format.json {
@@ -211,5 +214,4 @@ class SymposiumBaseController < ApplicationController
       self.send "gen_#{axn}_#{status}_response" unless @done_rendering
     end
   end
-
 end
