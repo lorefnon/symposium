@@ -6,7 +6,7 @@ Feature: Browsing of member list
 
   Scenario: User visits the community page
     When I visit the community page
-    I should see a listing of 10 most reputed community members
+    Then I should see a listing of 10 most reputed community members
 
   Scenario: user searches for an existing member by name
     Given There exists a user named "draco_malfoy"
@@ -18,4 +18,4 @@ Feature: Browsing of member list
     Given there is no user with name "eliot_spencer"
     When I visit the community page
     And I search for "eliot_spencer"
-    I should be prompted that no such user exists
+    Then I should be prompted that no such user exists
