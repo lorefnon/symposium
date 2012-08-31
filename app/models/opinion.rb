@@ -14,6 +14,7 @@
 class Opinion < ActiveRecord::Base
   attr_accessible :optype, :target_id, :target_type, :creator, :target
   before_save :pre_save
+  before_destroy :restore_reputation
   validate :disallow_self_vote
   belongs_to :creator, :class_name => "User"
   belongs_to :target, :polymorphic => true
@@ -123,5 +124,23 @@ class Opinion < ActiveRecord::Base
 
   def get_summary
     self
+  end
+
+  def restore_reputation
+    if optype == "upvote"
+      if target.instance_of? Question
+        target.creator.reputation -= 5
+      elsif target.instance_of? Answer
+        target.creator.reputation -= 10
+      end
+    elsif optype == "downvote"
+      target.creator.reputation += 2
+      creator.reputation += 1
+    end
+    target.creator.reputation = 1 if target.creator.reputation < 1
+    creator.reputation = 1 if creator.reputation < 1
+
+    target.creator.save
+    creator.save
   end
 end
