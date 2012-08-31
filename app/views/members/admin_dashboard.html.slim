@@ -5,14 +5,9 @@
     .span2
       ul#moderated_tag_list.nav.nav-list
         li.nav-header Moderated Items
-        li.active
-          a href="#" Tag 1
-        li
-          a href="#" Tag 2
-        li
-          a href="#" Tag 3
-    .span10#mod_wrapper
-      #mod_flag_wrapper
-        h2 Flagged Items
-      #mod_gen_wrapper
-        h2 Activities
+        - @tags.each do |tag|
+          - tclass = if @main_tag.id == tag.id then "active" else "" end
+          li class="#{tclass}"
+            = link_to tag.name, {:main_tag_id => tag.id}
+    .span10
+      = render :partial => "/tag/tag_info", :locals => { :tag => @main_tag }
