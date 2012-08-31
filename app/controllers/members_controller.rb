@@ -1,7 +1,7 @@
 class MembersController < SymposiumBaseController
 
   before_filter :ensure_resource_exists,
-  :except => [:new, :create, :index, :dashboard]
+  :except => [:new, :create, :index]
 
   def model_class; User end
 
@@ -51,12 +51,6 @@ class MembersController < SymposiumBaseController
     cur_id = current_user.id
     des_id = @inst.id
     @success =  @inst.destroy
-  end
-
-  def dashboard
-    protect_against_missing :member_id do
-      @inst = User.find params[:member_id]
-    end
   end
 
   private
