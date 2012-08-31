@@ -67,23 +67,7 @@ describe Question do
       u = User.make!
       @que.subscribers << u
       @que.destroy
-      activity = @que.activities.where("description = ?", :destroyed).first
-      activity.should_not be_nil
-      notif = activity.notifications
-        .includes(:user)
-        .where("users.id = ?", u.id)
-        .first
-      notif.should_not be_nil
-    end
-
-    it "notifies tag subscribers about this operation" do
-      t = Tag.make!
-      u = User.make!
-      t.subscribers << u
-      q = @que
-      q.tags << t
-      q.destroy
-      activity = q.activities.where("description = ?", :destroyed).first
+      activity = @que.activities.where("description = ?", :removed).first
       activity.should_not be_nil
       notif = activity.notifications
         .includes(:user)
@@ -101,7 +85,7 @@ describe Question do
       q = Question.make
       q.tags << t
       q.save
-      activity = q.activities.where("description = ?", :created).first
+      activity = q.activities.where("description = ?", :asked).first
       activity.should_not be_nil
       notif = activity.notifications
         .includes(:user)

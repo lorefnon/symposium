@@ -49,21 +49,21 @@ class Comment < ActiveRecord::Base
     notify Activity.create :concerned_question => concerned_question,
     :description => "added a comment for ",
     :initiator => self.creator,
-    :subject => self
+    :subject => self.target
   end
 
   def notify_about_update
     notify Activity.create :concerned_question => concerned_question,
     :description => "updated his comment for ",
     :initiator => self.creator,
-    :subject => self
+    :subject => self.target
   end
 
   def notify_about_destruction
     notify Activity.create :concerned_question => concerned_question,
     :description => "removed his comment for ",
     :initiator => self.creator,
-    :subject => self
+    :subject => self.target
   end
 
 end

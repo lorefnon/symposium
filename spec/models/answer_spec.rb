@@ -35,7 +35,10 @@ describe Answer do
 
   describe "#create" do
     it "notifies the subscribers of question about creation" do
-      activity = @ans.activities.where("description = ?", :created).first
+      activity = Activity.where(:concerned_question_id => @ans.question.id,
+                                :subject_id => @ans.id,
+                                :description => "answered")
+        .first
       activity.should_not be_nil
       notif = activity.notifications
         .includes(:user)
@@ -48,7 +51,10 @@ describe Answer do
     it "notifies the subscribers of question about update" do
       @ans.body = "some other text"
       @ans.save
-      activity = @ans.activities.where("description = ?", :updated).first
+      activity = Activity.where(:concerned_question_id => @ans.question.id,
+                                :subject_id => @ans.id,
+                                :description => "updated an answer for ")
+        .first
       activity.should_not be_nil
       notif = activity.notifications
         .includes(:user)
@@ -59,7 +65,10 @@ describe Answer do
     it "notifies its own subscribers about the update" do
       @ans.body = "changed text"
       @ans.save
-      activity = @ans.activities.where("description = ?", :updated).first
+      activity = Activity.where(:concerned_question_id => @ans.question.id,
+                                :subject_id => @ans.id,
+                                :description => "updated an answer for ")
+        .first
       activity.should_not be_nil
       notif = activity.notifications
         .includes(:user)
@@ -72,17 +81,13 @@ describe Answer do
     before :each do
       puts "answer id = #{@ans.id}"
       @ans.destroy
-      @activity = Activity.where("description = ?", :destroyed).first
+      @activity = Activity.where(:concerned_question_id => @ans.question.id,
+                                 :subject_id => @ans.id,
+                                 :description => "removed an answer for ")
+        .first
     end
     it "notifies its own subscribers about deletion" do
       @activity.should_not be_nil
-      puts @activity.metadata
-      @activity.metadata["creator_name"].should ==
-        @ans.creator.user_name
-      @activity.metadata["question_title"].should ==
-        @ans.question.title[0...140]
-      @activity.metadata["body"].should ==
-        @ans.body[0...140]
       notif = @activity.notifications
         .includes(:user)
         .where("users.id = ?", @user.id)

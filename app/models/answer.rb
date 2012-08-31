@@ -75,14 +75,14 @@ class Answer < ActiveRecord::Base
 
   def notify_about_update
     notify Activity.create :concerned_question => self.question,
-    :description => "updated an answer for",
+    :description => "updated an answer for ",
     :initiator => self.creator,
     :subject => self
   end
 
   def notify_about_destruction
     notify Activity.create :concerned_question => self.question,
-    :description => "removed an answer for",
+    :description => "removed an answer for ",
     :initiator => self.creator,
     :subject => self
   end

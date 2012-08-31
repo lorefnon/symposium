@@ -26,7 +26,11 @@ describe Comment do
   describe "#create" do
     it "notifies the subscribers of target about creation" do
       cmt = Comment.make! :target => @que
-      activity = cmt.activities.where("description = ?", :created).first
+      activity = Activity
+        .where(:concerned_question_id => @que.id,
+               :subject_id => @que.id,
+               :description => "added a comment for ")
+        .first
       activity.should_not be_nil
       notif = activity.notifications.includes(:user)
         .where("users.id = ?", @u1.id)
@@ -34,7 +38,11 @@ describe Comment do
       notif.should_not be_nil
 
       cmt = Comment.make! :target => @ans
-      activity = cmt.activities.where("description = ?", :created).first
+      activity = Activity
+        .where(:concerned_question_id => @ans.question.id,
+               :subject_id => @ans.id,
+               :description => "added a comment for ")
+        .first
       activity.should_not be_nil
       notif = activity.notifications.includes(:user)
         .where("users.id = ?", @u2.id)
@@ -47,7 +55,11 @@ describe Comment do
       cmt = Comment.make! :target => @que
       cmt.body = "Something else"
       cmt.save!
-      activity = cmt.activities.where("description = ?", :updated).first
+      activity = Activity
+        .where(:concerned_question_id => @que.id,
+               :subject_id => @que.id,
+               :description => "updated his comment for ")
+        .first
       activity.should_not be_nil
       notif = activity.notifications.includes(:user)
         .where("users.id = ?", @u1.id)
@@ -59,7 +71,11 @@ describe Comment do
     it "notifies the subscribers of target about deletion" do
       cmt = Comment.make! :target => @que
       cmt.destroy
-      activity = cmt.activities.where("description = ?", :destroyed).first
+      activity = Activity
+        .where(:concerned_question_id => @que.id,
+               :subject_id => @que.id,
+               :description => "removed his comment for ")
+        .first
       activity.should_not be_nil
       notif = activity.notifications.includes(:user)
         .where("users.id = ?", @u1.id)
